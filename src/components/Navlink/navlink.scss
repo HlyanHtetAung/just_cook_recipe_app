@@ -1,0 +1,12 @@
+@import "../../scssVariables.scss";
+
+.nav_link {
+  color: $black-color;
+  text-decoration: none;
+  border-bottom: 5px solid transparent;
+  text-transform: uppercase;
+  width: fit-content;
+  &.active {
+    border-bottom: 5px solid $hilight-color;
+  }
+}

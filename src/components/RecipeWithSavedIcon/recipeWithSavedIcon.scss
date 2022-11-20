@@ -1,0 +1,76 @@
+@import "../../scssVariables.scss";
+.recipeWithSavedIcon_wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  cursor: pointer;
+
+  .recipe_image_wrapper {
+    height: 230px;
+    position: relative;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 9px;
+      border: 2px solid transparent;
+    }
+
+    .click_to_save_warning_letter {
+      position: absolute;
+      bottom: 15px;
+      left: 15px;
+      padding: 8px 20px;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateX(10%);
+      background-color: $hilight-color;
+      color: $white-color;
+      font-size: $letter_size_wide_screen;
+      border-radius: 9px;
+    }
+
+    .like_icon_wrapper {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      width: 50px;
+      height: 50px;
+      background-color: $hilight-color;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+
+      .like_icon {
+        color: $white-color;
+        background-color: transparent;
+        width: 30px;
+        height: 30px;
+      }
+
+      &:hover {
+        .like_icon {
+          color: red;
+        }
+      }
+      &:hover ~ .click_to_save_warning_letter {
+        opacity: 1;
+        transform: translateX(0);
+        transition: 400ms ease;
+      }
+    }
+  }
+  p {
+    color: $black-color;
+    line-height: 30px;
+    font-size: $letter_size_wide_screen;
+  }
+
+  &:hover {
+    img {
+      border-color: $black-color;
+    }
+  }
+}

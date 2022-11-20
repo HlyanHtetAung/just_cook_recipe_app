@@ -1,0 +1,308 @@
+@import "../../scssVariables.scss";
+.home_outside_wrapper {
+  .home_wrapper {
+    position: relative;
+    height: 400px;
+    background: url("https://www.heart.org/-/media/Images/Healthy-Living/Healthy-Eating/Superfoods.png?h=391&w=800&hash=D62072BD25A36A59D8577B45FD492253");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 20%;
+    background-attachment: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .image_overlayEffect {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.582);
+    }
+
+    .home_search_wrapper {
+      z-index: 1;
+      background-color: transparent;
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 30px;
+
+      .home_seach_header {
+        font-size: 45px;
+        color: $white-color;
+        background-color: transparent;
+        text-align: center;
+      }
+      .home_input_wrapper {
+        display: flex;
+        margin: 0 auto;
+        align-items: center;
+        width: 75%;
+        padding: 0 10px;
+        border-radius: 9px;
+        background-color: $white-color;
+        .home_input_searchIcon {
+          width: 30px;
+          height: 30px;
+          color: $hilight-color;
+        }
+        input {
+          width: 100%;
+          border: none;
+          padding: 13px 10px;
+          outline: none;
+          color: $hilight-color;
+          font-size: 18px;
+        }
+      }
+      .home_recipeType_wrapper {
+        width: 90%;
+        height: 20px;
+        margin: 0 auto;
+        background-color: transparent;
+        position: relative;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        .home_recipeArrowIcon {
+          position: absolute;
+          width: 40px;
+          height: 40px;
+          background-color: transparent;
+          color: $white-color;
+          cursor: pointer;
+          &:hover {
+            color: red;
+          }
+          &:nth-child(1) {
+            right: 103%;
+          }
+          &:nth-child(2) {
+            left: 103%;
+          }
+        }
+        .recipeTypes_wrapper {
+          width: 100%;
+          display: flex;
+          flex-wrap: nowrap;
+          height: 40px;
+          background-color: transparent;
+          overflow: hidden;
+          border-radius: 9px;
+          .recipesType {
+            display: flex;
+            align-items: center;
+            min-width: calc(25%);
+            justify-content: center;
+            border-radius: 16px;
+            color: $black-color;
+            cursor: pointer;
+            color: $white-color;
+            transition: transform 700ms ease-in-out;
+            background-color: transparent;
+            font-weight: 700;
+            font-size: 20px;
+            text-transform: uppercase;
+            &:hover {
+              background-color: $white-color;
+              color: $hilight-color;
+              transition: 100ms ease-in;
+            }
+          }
+        }
+      }
+    }
+  }
+  .newest_outside_recipesTypes_wrapper {
+    .newest_recipeTypes_wrapper {
+      margin: $app-margin;
+      .newest_recipes_header {
+        padding-top: 20px;
+        text-align: center;
+        color: $hilight-color;
+        font-size: $heading_size_wide_screen;
+        font-weight: 700;
+        font-size: 28px;
+      }
+      .newest_recipes_wrapper {
+        margin-top: 30px;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 20px;
+      }
+      .divider {
+        width: 100%;
+        height: 0.5px;
+        background-color: $hilight-color;
+        margin-top: 30px;
+      }
+    }
+  }
+
+  .popular_recipes_wrapper {
+    margin: $app-margin;
+    .popular_recipes_header {
+      text-align: center;
+      margin-top: 20px;
+      color: $hilight-color;
+      font-size: $heading_size_wide_screen;
+    }
+    .popular_recipes_conatiner {
+      margin-top: 30px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+  }
+}
+
+@media screen and (max-width: 1500px) {
+  .home_outside_wrapper {
+    .newest_recipeTypes_wrapper {
+      .newest_recipes_wrapper {
+        grid-template-columns: repeat(1, 1fr);
+      }
+    }
+    .newest_outside_recipesTypes_wrapper {
+      .newest_recipeTypes_wrapper {
+        .newest_recipes_wrapper {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1480px) {
+  .home_outside_wrapper {
+    .popular_recipes_wrapper {
+      .popular_recipes_conatiner {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1300px) {
+  .home_outside_wrapper {
+    .home_wrapper {
+      .home_search_wrapper {
+        width: 60%;
+        .home_input_wrapper {
+          width: 70%;
+        }
+        .home_recipeType_wrapper {
+          width: 80%;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1100px) {
+  .home_outside_wrapper {
+    .home_wrapper {
+      .home_search_wrapper {
+        width: 70%;
+        .home_recipeType_wrapper {
+          .recipeTypes_wrapper {
+            .recipesType {
+              min-width: 33.33%;
+            }
+          }
+        }
+      }
+    }
+    .popular_recipes_wrapper {
+      .popular_recipes_conatiner {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .home_outside_wrapper {
+    .newest_outside_recipesTypes_wrapper {
+      .newest_recipeTypes_wrapper {
+        .newest_recipes_wrapper {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+    }
+    .popular_recipes_wrapper {
+      // .popular_recipes_conatiner {
+      //   grid-template-columns: repeat(1, 1fr);
+      // }
+    }
+  }
+}
+
+@media screen and (max-width: 850px) {
+  .home_outside_wrapper {
+    .newest_outside_recipesTypes_wrapper {
+      .newest_recipeTypes_wrapper {
+        margin: $smallScreen_margin;
+      }
+    }
+    .popular_recipes_wrapper {
+      margin: $smallScreen_margin;
+    }
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .home_outside_wrapper {
+    .home_wrapper {
+      .home_search_wrapper {
+        width: 80%;
+        .home_input_wrapper {
+          width: 90%;
+        }
+        .home_recipeType_wrapper {
+          width: 90%;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .home_outside_wrapper {
+    .home_wrapper {
+      .home_search_wrapper {
+        .home_recipeType_wrapper {
+          .recipeTypes_wrapper {
+            .recipesType {
+              min-width: 50%;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .home_outside_wrapper {
+    .popular_recipes_wrapper {
+      .popular_recipes_conatiner {
+        grid-template-columns: repeat(1, 1fr);
+      }
+    }
+  }
+}
+@media screen and (max-width: 560px) {
+  .home_outside_wrapper {
+    .newest_outside_recipesTypes_wrapper {
+      .newest_recipeTypes_wrapper {
+        .newest_recipes_wrapper {
+          grid-template-columns: repeat(1, 1fr);
+        }
+      }
+    }
+  }
+}

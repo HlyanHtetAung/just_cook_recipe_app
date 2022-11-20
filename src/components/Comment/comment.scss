@@ -1,0 +1,76 @@
+@import "../../scssVariables.scss";
+
+.comment_wrapper {
+  .comment_inside_wrapper {
+    display: flex;
+    gap: 10px;
+    margin: 20px 0px;
+    img {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      border-radius: 9px;
+    }
+
+    .comment_right_wrapper {
+      flex: 1;
+
+      .comment_header_wrapper {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        .comment_username {
+          color: $black-color;
+        }
+        .comment_date {
+          color: $hilight-color;
+        }
+      }
+      .comment_letter {
+        text-align: justify;
+      }
+    }
+    .comment_button_wrapper {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: $letter_color;
+      button {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        border: none;
+        background-color: transparent;
+        padding: 3px;
+        border-radius: 5px;
+        &:hover {
+          background-color: $hilight-color;
+          color: $white-color;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .comment_wrapper {
+    .comment_inside_wrapper {
+      img {
+        width: 35px;
+        height: 35px;
+      }
+
+      .comment_right_wrapper {
+        .comment_header_wrapper {
+          .comment_date {
+            color: $hilight-color;
+          }
+        }
+        .comment_letter {
+          font-size: 15px;
+        }
+      }
+    }
+  }
+}

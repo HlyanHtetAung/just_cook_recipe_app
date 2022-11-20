@@ -1,0 +1,94 @@
+@import "../../scssVariables.scss";
+
+.navbar_outside_wrapper {
+  position: sticky;
+  top: 0;
+  background-color: #f0f9f9;
+  z-index: 999;
+
+  .navbar_wrapper {
+    margin: $app-margin;
+    height: 135px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .navbar_header {
+      font-family: "Spectral";
+      font-size: 50px;
+      color: $hilight-color;
+      z-index: 999;
+    }
+
+    .navbar_right_wrapper {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+
+      .currnet_userinfo_wrapper {
+        display: flex;
+        flex-direction: column;
+        cursor: pointer;
+        img {
+          width: 60px;
+          height: 60px;
+          border-radius: 50%;
+          border: 2px solid $hilight-color;
+        }
+      }
+      .navbar_hamburgerIcon {
+        width: 40px;
+        height: 40px;
+        color: $hilight-color;
+        cursor: pointer;
+        display: none;
+        z-index: 999;
+        &:hover {
+          color: red;
+        }
+      }
+      .navbar_signUpBtn {
+        padding: 10px 20px;
+        border-radius: 29px;
+        background-color: $hilight-color;
+        color: $white-color;
+        border: none;
+        cursor: pointer;
+      }
+      .navbar_searchIcon {
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1100px) {
+  .navbar_outside_wrapper {
+    .navbar_wrapper {
+      flex-direction: column;
+      justify-content: space-evenly;
+    }
+  }
+}
+
+@media screen and (max-width: 850px) {
+  .navbar_outside_wrapper {
+    .navbar_wrapper {
+      margin: $smallScreen_margin;
+      flex-direction: row;
+      justify-content: space-between;
+      .navbar_right_wrapper {
+        .navbar_hamburgerIcon {
+          display: block;
+        }
+        .nav_link,
+        .navbar_signUpBtn,
+        .navbar_searchIcon {
+          display: none;
+        }
+      }
+    }
+  }
+}

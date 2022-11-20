@@ -1,0 +1,51 @@
+@import "../../scssVariables.scss";
+
+.saved_recipe_wrapper {
+  position: relative;
+  padding: 20px;
+  display: flex;
+  gap: 20px;
+  border-radius: 20px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  cursor: pointer;
+  border: 1px solid transparent;
+
+  &:hover {
+    border-color: black;
+  }
+  .three_dot_icon {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    width: 30px;
+    height: 30px;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+  .saved_recipe_left_wrapper {
+    img {
+      width: 300px;
+      height: 200px;
+      border-radius: 9px;
+      object-fit: cover;
+    }
+  }
+  .saved_recipe_right_wrapper {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 20px;
+    h3 {
+      color: $hilight-color;
+      text-transform: capitalize;
+    }
+
+    p {
+      color: #171a20;
+
+      span {
+        font-weight: bold;
+      }
+    }
+  }
+}

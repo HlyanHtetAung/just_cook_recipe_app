@@ -1,0 +1,26 @@
+@import "../../scssVariables.scss";
+.newestRecipe_wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  gap: 15px;
+  img {
+    height: 220px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid transparent;
+  }
+  p {
+    color: $black-color;
+    // text-align: center;
+    line-height: 30px;
+    font-size: $letter_size_wide_screen;
+  }
+
+  &:hover {
+    img {
+      border-color: black;
+    }
+  }
+}
