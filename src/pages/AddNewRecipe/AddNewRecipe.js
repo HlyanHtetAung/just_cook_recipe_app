@@ -6,7 +6,7 @@ import { AiOutlineDelete } from "react-icons/ai";
 import "./addNewRecipe.scss";
 import { useSelector } from "react-redux";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db, storage } from "../../Firebase";
 import { v4 } from "uuid";
 function AddNewRecipe() {
@@ -85,9 +85,12 @@ function AddNewRecipe() {
   function addToMethodList() {
     const methodHeader = recipeDetail.recipeMethodHeader;
     const methodLetter = recipeDetail.recipeMethodLetter;
-    if (!methodHeader || !methodLetter) {
+    if (!methodHeader && !methodLetter) {
       return;
     }
+    // if (!methodHeader  && methodLetter || methodHeader  && !methodLetter) {
+    //   return;
+    // }
     const prevMethodArray = recipeDetail.recipeMethods;
     const updateMethodArray = [
       ...prevMethodArray,
@@ -195,6 +198,7 @@ function AddNewRecipe() {
             recipeMethods,
             comments: [],
             createdBy: username,
+            timestamp: serverTimestamp(),
           };
           addDoc(recipesCollectoinRef, newRecipe);
         });

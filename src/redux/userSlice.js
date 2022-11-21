@@ -8,16 +8,24 @@ const userSlice = createSlice({
     userId: "",
     userRole: "",
     savedRecipes: [],
+    userDocumentId: "",
   },
   reducers: {
     reduxLogin: (state, action) => {
-      const { username, userRole, userPhoto, savedRecipes, userId } =
-        action.payload;
+      const {
+        username,
+        userRole,
+        userPhoto,
+        savedRecipes,
+        userId,
+        userDocumentId,
+      } = action.payload;
       state.username = username;
       state.userRole = userRole;
       state.userPhoto = userPhoto;
       state.savedRecipes = savedRecipes;
       state.userId = userId;
+      state.userDocumentId = userDocumentId;
     },
     reduxLogout: (state) => {
       state.username = "";

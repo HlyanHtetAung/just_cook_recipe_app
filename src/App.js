@@ -16,7 +16,8 @@ import { db } from "./Firebase";
 import { getAllUsers } from "./redux/allUsersSlice";
 import AddNewRecipe from "./pages/AddNewRecipe/AddNewRecipe";
 function App() {
-  const { username } = useSelector((state) => state.user);
+  const { userRole } = useSelector((state) => state.user);
+
   const dispatch = useDispatch();
   // To contorl Navbar on small screen
   const [acitveHamburgerMenu, setActiveHamburgerMenu] = useState(false);
@@ -37,20 +38,20 @@ function App() {
     return () => window.removeEventListener("resize", windowResizeHandle);
   }, []);
 
-  useEffect(() => {
-    // get All users after app is mounted
-    const fetchAllUsers = () => {
-      const userCollectionRef = collection(db, "users");
-      onSnapshot(userCollectionRef, (snapshot) =>
-        dispatch(
-          getAllUsers(
-            snapshot.docs.map((doc) => ({ ...doc.data(), docId: doc.id }))
-          )
-        )
-      );
-    };
-    fetchAllUsers();
-  }, []);
+  // useEffect(() => {
+  //   // get All users after app is mounted
+  //   const fetchAllUsers = () => {
+  //     const userCollectionRef = collection(db, "users");
+  //     onSnapshot(userCollectionRef, (snapshot) =>
+  //       dispatch(
+  //         getAllUsers(
+  //           snapshot.docs.map((doc) => ({ ...doc.data(), docId: doc.id }))
+  //         )
+  //       )
+  //     );
+  //   };
+  //   fetchAllUsers();
+  // }, []);
 
   return (
     <BrowserRouter>

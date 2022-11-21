@@ -20,24 +20,19 @@ import { v4 } from "uuid";
 
 function RecipeDetail() {
   const params = useParams();
-  const { username, userPhoto, userId } = useSelector((state) => state.user);
+  const { username, userPhoto, userId, userDocumentId } = useSelector(
+    (state) => state.user
+  );
   const [recipeDetail, setRecipeDetail] = useState({});
 
   useEffect(() => {
     async function fetchRecipeDetail() {
       const docRef = doc(db, "recipes", params.recipeId);
-
-      onSnapshot(docRef, (snapshot) => setRecipeDetail(snapshot.data()));
+      onSnapshot(docRef, (snapshot) =>
+        setRecipeDetail({ ...snapshot.data(), recipeDocId: snapshot.id })
+      );
     }
     fetchRecipeDetail();
-
-    // const collectionRef = collection(db, "test");
-    // const q = query(collectionRef, orderBy("timestamp", "desc"));
-    // onSnapshot(q, (snapshot) => {
-    //   setResponseResult(
-    //     snapshot.docs.map((doc) => ({ ...doc.data(), docId: doc.id }))
-    //   );
-    // });
   }, []);
 
   async function handleGiveOriginalComment(userinput) {
@@ -62,6 +57,17 @@ function RecipeDetail() {
     await updateDoc(docRef, { comments: updatedComments });
   }
 
+  async function savedRecipeHandle() {
+    const userDocRef = doc(db, "users", userDocumentId);
+    const currentUserResult = (await getDoc(userDocRef)).data();
+
+    const toAddSavedRecipeAry = [
+      ...currentUserResult.savedRecipes,
+      { ...recipeDetail },
+    ];
+    await updateDoc(userDocRef, { savedRecipes: toAddSavedRecipeAry });
+  }
+
   return (
     <div className="recipe_detail_wrapper">
       <ScrollToTopOnMount />
@@ -73,7 +79,7 @@ function RecipeDetail() {
           <div className="recipe_headerInfo_wrapper">
             <h2>{recipeDetail?.recipeName}</h2>
             <p>By {recipeDetail?.createdBy}</p>
-            <button>Save Recipe</button>
+            <button onClick={savedRecipeHandle}>Save Recipe</button>
           </div>
         </div>
         <div className="recipe_ingredients_wrapper">
