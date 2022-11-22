@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Comments from "../../components/Comments/Comments";
 import ReplyCommentInputBox from "../../components/ReplyCommentInputBox/ReplyCommentInputBox";
 import ScrollToTopOnMount from "../../ScrollToTopOnMount";
@@ -67,10 +67,13 @@ function RecipeDetail() {
     ];
     await updateDoc(userDocRef, { savedRecipes: toAddSavedRecipeAry });
   }
-
+  const navigate = useNavigate();
   return (
     <div className="recipe_detail_wrapper">
       <ScrollToTopOnMount />
+      <Link to={`/editRecipe/${params.recipeId}`}>
+        <button>Edit Recipe</button>
+      </Link>
       <div className="recipe_info_wrapper">
         <div className="recipe_header_wrapper">
           <div className="recipe_photo_wrapper">

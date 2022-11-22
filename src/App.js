@@ -10,10 +10,10 @@ import { AiOutlineInstagram } from "react-icons/ai";
 import { SlSocialTwitter } from "react-icons/sl";
 import { MdFacebook } from "react-icons/md";
 import RecipeDetail from "./pages/RecipeDetail/RecipeDetail";
-
 import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "./Firebase";
 import { getAllUsers } from "./redux/allUsersSlice";
+import EditRecipe from "./pages/EditRecipeForm/EditRecipe";
 import AddNewRecipe from "./pages/AddNewRecipe/AddNewRecipe";
 function App() {
   const { userRole } = useSelector((state) => state.user);
@@ -70,6 +70,7 @@ function App() {
             <Route path="aboutUs" element={<AboutUs />} />
             <Route path="savedRecipes" element={<SavedRecipes />} />
             <Route path="addNewRecipe" element={<AddNewRecipe />} />
+            <Route path="editRecipe/:recipeDocId" element={<EditRecipe />} />
             <Route path="recipe/:recipeId" element={<RecipeDetail />} />
           </Route>
         </Routes>
