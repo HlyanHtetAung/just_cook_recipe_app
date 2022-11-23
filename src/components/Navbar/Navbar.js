@@ -35,12 +35,8 @@ function Navbar({
   async function signInHandle() {
     const userCollectionRef = collection(db, "users");
     const allUsersDocs = await getDocs(userCollectionRef);
-    console.log("allUsersDocs.docs()", allUsersDocs.docs);
     const signInResponse = await signInWithGoogle();
-    // console.log(
-    //   "something",
-    //   allUsersDocs.docs.map((user) => ({ ...user.data(), docId: user.id }))
-    // );
+
     const foundUser = allUsersDocs.docs
       .map((user) => ({ ...user.data(), docId: user.id }))
       .find((usr) => usr.userId === signInResponse.user?.uid);
@@ -51,6 +47,7 @@ function Navbar({
       const updatedNameAndPhotoLinkUser = { ...foundUser };
       updatedNameAndPhotoLinkUser.userPhoto = signInResponse.user.photoURL;
       updatedNameAndPhotoLinkUser.username = signInResponse.user.displayName;
+
       delete updatedNameAndPhotoLinkUser.docId;
       const docRef = doc(db, "users", foundUser.docId);
       await updateDoc(docRef, updatedNameAndPhotoLinkUser);
@@ -59,6 +56,11 @@ function Navbar({
         ...updatedNameAndPhotoLinkUser,
         userDocumentId: foundUser.docId,
       };
+
+      console.log(
+        reduxUser.userPhoto === updatedNameAndPhotoLinkUser.userPhoto
+      );
+
       dispatch(reduxLogin(reduxUser));
       return;
     }

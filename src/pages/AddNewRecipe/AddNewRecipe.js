@@ -14,8 +14,15 @@ import { db, storage } from "../../Firebase";
 function AddNewRecipe() {
   const { username } = useSelector((state) => state.user);
 
+  const triGram = (txt) => {
+    const map = {};
+    const s1 = (txt || "").toLowerCase();
+    const n = 3;
+    for (let k = 0; k <= s1.length - n; k++) map[s1.substring(k, k + n)] = true;
+    return map;
+  };
+
   function handleAddFinalRecipe(recipeDetail, imageFile) {
-    console.log("clicked");
     const recipesCollectoinRef = collection(db, "recipes");
 
     const {
@@ -33,9 +40,9 @@ function AddNewRecipe() {
       recipeIngredients.length <= 0 ||
       recipeMethods <= 0
     ) {
-      console.log("hello world");
       return;
     }
+
     const file = imageFile;
     const imageName = imageFile.name + v4();
     const sotragePath = "recipesImages/" + imageName;
@@ -63,6 +70,7 @@ function AddNewRecipe() {
             comments: [],
             createdBy: username,
             timestamp: serverTimestamp(),
+            toSearchRecipe: [...Object.keys(triGram(recipeName))],
           };
           addDoc(recipesCollectoinRef, newRecipe);
         });

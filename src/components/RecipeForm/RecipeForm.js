@@ -24,7 +24,7 @@ function RecipeForm({
 }) {
   const [recipeDetail, setRecipeDetail] = useState({
     recipeName: "",
-    reciepType: "",
+    recipeType: "",
     recipePhoto: "",
     recipeIngredientText: "",
     recipeIngredients: [],
@@ -32,6 +32,7 @@ function RecipeForm({
     recipeMethodLetter: "",
     recipeMethods: [],
   });
+
   const [toDelteImageName, setToDeleteImageName] = useState("");
 
   const [toEditIngredintIndex, setToEditIngredintIndex] = useState(null);

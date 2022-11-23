@@ -15,6 +15,7 @@ import { db } from "./Firebase";
 import { getAllUsers } from "./redux/allUsersSlice";
 import EditRecipe from "./pages/EditRecipeForm/EditRecipe";
 import AddNewRecipe from "./pages/AddNewRecipe/AddNewRecipe";
+import SearchResultRecipes from "./pages/SearchResultRecipes/SearchResultRecipes";
 function App() {
   const { userRole } = useSelector((state) => state.user);
 
@@ -72,6 +73,10 @@ function App() {
             <Route path="addNewRecipe" element={<AddNewRecipe />} />
             <Route path="editRecipe/:recipeDocId" element={<EditRecipe />} />
             <Route path="recipe/:recipeId" element={<RecipeDetail />} />
+            <Route
+              path="recipes/searchResult=:searchInput"
+              element={<SearchResultRecipes />}
+            />
           </Route>
         </Routes>
         <div className="app_footer_wrapper">

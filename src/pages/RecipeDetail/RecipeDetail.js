@@ -12,6 +12,10 @@ import {
   onSnapshot,
   query,
   orderBy,
+  collection,
+  where,
+  getDocs,
+  startAt,
 } from "firebase/firestore";
 import { db } from "../../Firebase";
 import "./recipeDetail.scss";
@@ -67,9 +71,17 @@ function RecipeDetail() {
     ];
     await updateDoc(userDocRef, { savedRecipes: toAddSavedRecipeAry });
   }
-  const navigate = useNavigate();
+
+  async function fetchOnUserInputTest() {
+    const recipesCollectionRef = collection(db, "recipes");
+    const q = query(recipesCollectionRef, startAt());
+    const result = (await getDocs(q)).docs.map((doc) => ({ ...doc.data() }));
+    console.log("result", result);
+  }
+
   return (
     <div className="recipe_detail_wrapper">
+      <button onClick={fetchOnUserInputTest}>fetch</button>
       <ScrollToTopOnMount />
       <Link to={`/editRecipe/${params.recipeId}`}>
         <button>Edit Recipe</button>

@@ -4,8 +4,15 @@ import { FiSearch } from "react-icons/fi";
 import { BsArrowLeftCircle, BsArrowRightCircle } from "react-icons/bs";
 import NewestRecipe from "../../components/NewestRecipe/NewestRecipe";
 import RecipeWithSavedIcon from "../../components/RecipeWithSavedIcon/RecipeWithSavedIcon";
-import { collection, onSnapshot } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  onSnapshot,
+  query,
+  where,
+} from "firebase/firestore";
 import { db } from "../../Firebase";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
   const [allRecipes, setAllRecipes] = useState([]);
@@ -236,9 +243,21 @@ function Home() {
         )
       );
     }
-    console.log("reenderderd");
     fetchAllRecipes();
   }, []);
+  const navigate = useNavigate();
+  const [userSearchInput, setUserSearchInput] = useState("");
+
+  function handleSearchRecipe(e) {
+    const userInputValue = e.target.value;
+    setUserSearchInput(userInputValue);
+  }
+
+  function handleKeyPress(e) {
+    if (e.key === "Enter") {
+      navigate(`/recipes/searchResult=${userSearchInput}`);
+    }
+  }
 
   return (
     <div className="home_outside_wrapper">
@@ -248,7 +267,13 @@ function Home() {
           <h1 className="home_seach_header">Ready To Cook?</h1>
           <div className="home_input_wrapper">
             <FiSearch className="home_input_searchIcon" />
-            <input type="text" placeholder="Search for a recipe" />
+            <input
+              type="text"
+              placeholder="Search for a recipe"
+              onChange={(e) => handleSearchRecipe(e)}
+              onKeyPress={(e) => handleKeyPress(e)}
+              value={userSearchInput}
+            />
           </div>
           <div className="home_recipeType_wrapper">
             <BsArrowLeftCircle
