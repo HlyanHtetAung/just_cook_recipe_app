@@ -1,6 +1,7 @@
 import { collection, getDocs, query, where } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import RecipeWithSavedIcon from "../../components/RecipeWithSavedIcon/RecipeWithSavedIcon";
 import { db } from "../../Firebase";
 import "./searchResultRecipes.scss";
 
@@ -30,7 +31,10 @@ function SearchResultRecipes() {
         ])
       );
       setLoading(true);
-      const result = (await getDocs(q)).docs.map((doc) => ({ ...doc.data() }));
+      const result = (await getDocs(q)).docs.map((doc) => ({
+        ...doc.data(),
+        docId: doc.id,
+      }));
       setSearchedRecipes(result);
       setLoading(false);
     }
@@ -43,7 +47,16 @@ function SearchResultRecipes() {
       {/* {loading ? "Loading..." : "Result Reipces"} */}
       <div className="searchResult_wrapper">
         <div className="searchResult_left">
-          <h3>Search Result</h3>
+          <h3>Found Recipes ({searchedRecipes.length})</h3>
+          <div className="searched_recipes_wrapper">
+            {searchedRecipes?.map((recipe) => (
+              <RecipeWithSavedIcon
+                recipeId={recipe.docId}
+                recipeName={recipe.recipeName}
+                recipePhoto={recipe.recipePhotoLink}
+              />
+            ))}
+          </div>
         </div>
         <div className="searchResult_right">
           <h3>Food Types</h3>

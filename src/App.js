@@ -22,21 +22,13 @@ function App() {
   const dispatch = useDispatch();
   // To contorl Navbar on small screen
   const [acitveHamburgerMenu, setActiveHamburgerMenu] = useState(false);
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
   const [activeLink, setActiveLink] = useState(
     "/" + window.location.pathname.split("/")[1]
   );
 
   useEffect(() => {
     setActiveLink("/" + window.location.pathname.split("/")[1]);
-  }, []);
-
-  useEffect(() => {
-    function windowResizeHandle() {
-      setWindowWidth(window.innerWidth);
-    }
-    window.addEventListener("resize", windowResizeHandle);
-    return () => window.removeEventListener("resize", windowResizeHandle);
   }, []);
 
   // useEffect(() => {
@@ -62,7 +54,6 @@ function App() {
           activeLink={activeLink}
           setActiveLink={setActiveLink}
           acitveHamburgerMenu={acitveHamburgerMenu}
-          windowWidth={windowWidth}
         />
 
         <Routes>

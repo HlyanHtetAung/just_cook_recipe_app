@@ -10,17 +10,68 @@
   cursor: pointer;
   border: 1px solid transparent;
 
-  &:hover {
-    border-color: black;
-  }
+  // &:hover {
+  //   border-color: black;
+  // }
   .three_dot_icon {
     position: absolute;
-    top: 50%;
+    top: 20px;
     right: 15px;
     width: 30px;
     height: 30px;
-    transform: translateY(-50%);
     cursor: pointer;
+    color: $hilight-color;
+    &:hover {
+      color: $hover-color;
+    }
+  }
+
+  .warning_wrapper {
+    padding: 10px;
+    position: absolute;
+    top: 30px;
+    right: 15px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+    font-weight: 500;
+    gap: 5px;
+    background-color: #f0f9f9;
+    color: black;
+    border-radius: 10px;
+    pointer-events: none;
+    opacity: 0;
+
+    .warning_button_wrapper {
+      align-self: flex-end;
+
+      display: flex;
+      gap: 10px;
+      button {
+        font-size: 13px;
+        padding: 1px 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+
+        &:nth-child(1) {
+          background-color: yellowgreen;
+          color: $black-color;
+        }
+        &:nth-child(2) {
+          color: $white-color;
+          background-color: $hilight-color;
+        }
+      }
+    }
+
+    &.active {
+      top: 55px;
+      opacity: 1;
+      transition: 400ms ease;
+      pointer-events: visible;
+    }
   }
   .saved_recipe_left_wrapper {
     img {
@@ -39,12 +90,59 @@
       color: $hilight-color;
       text-transform: capitalize;
     }
-
     p {
       color: #171a20;
 
       span {
         font-weight: bold;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 850px) {
+  .saved_recipe_wrapper {
+    flex-direction: column;
+    .saved_recipe_left_wrapper {
+      flex: 1;
+      width: 100%;
+      img {
+        height: 300px;
+        width: 100%;
+      }
+    }
+    .three_dot_icon {
+      position: absolute;
+      top: 90%;
+      right: 15px;
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+      color: $hilight-color;
+      background-color: $white-color;
+      &:hover {
+        color: $hover-color;
+      }
+    }
+    .warning_wrapper {
+      text-align: center;
+      opacity: 1;
+      width: 100%;
+      right: 0;
+      top: 90%;
+      opacity: 0;
+      border-radius: 0 0 20px 20px;
+      &.active {
+        opacity: 1;
+        transition: 400ms ease;
+        width: 100%;
+        top: 100%;
+        right: 0;
+        transform: translateY(-100%);
+        height: fit-content;
+      }
+      .warning_button_wrapper {
+        align-self: center;
       }
     }
   }

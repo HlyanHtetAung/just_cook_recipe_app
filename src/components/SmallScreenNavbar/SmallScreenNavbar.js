@@ -1,14 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import Navlink from "../Navlink/Navlink";
 import "./smallScreenNavbar.scss";
 
-function SmallScreenNavbar({
-  acitveHamburgerMenu,
-  activeLink,
-  setActiveLink,
-  windowWidth,
-}) {
+function SmallScreenNavbar({ acitveHamburgerMenu, activeLink, setActiveLink }) {
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    function windowResizeHandle() {
+      setWindowWidth(window.innerWidth);
+    }
+    window.addEventListener("resize", windowResizeHandle);
+    return () => window.removeEventListener("resize", windowResizeHandle);
+  }, []);
+
   return (
     <div
       className={

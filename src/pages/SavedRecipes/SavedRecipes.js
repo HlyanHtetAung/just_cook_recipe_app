@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 function SavedRecipes() {
   const { userId } = useSelector((state) => state.user);
   const [userDetail, setUserDetail] = useState([]);
-
+  console.log("userDetail", userDetail);
   useEffect(() => {
     async function fetchUserDetail() {
       const usersCollectionRef = collection(db, "users");
@@ -23,11 +23,10 @@ function SavedRecipes() {
     fetchUserDetail();
   }, [userId]);
 
-  console.log("userDetail", userDetail);
   return (
     <div className="saved_recipes_outside_wrapper">
       <div className="saved_recipes_inside_wrapper">
-        <h3>Saved Recipes(2)</h3>
+        <h3>Saved Recipes({userDetail[0]?.savedRecipes?.length})</h3>
         <div className="saved_recipes_layout_wrapper">
           {userDetail[0]?.savedRecipes?.map((recipe) => (
             <SavedRecipe

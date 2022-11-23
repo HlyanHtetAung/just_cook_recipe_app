@@ -22,7 +22,6 @@ function Navbar({
   activeLink,
   setActiveLink,
   acitveHamburgerMenu,
-  windowWidth,
 }) {
   // const { allUsers } = useSelector((state) => state.allUsers);
   const { username, userPhoto } = useSelector((state) => state.user);
@@ -83,7 +82,6 @@ function Navbar({
         acitveHamburgerMenu={acitveHamburgerMenu}
         activeLink={activeLink}
         setActiveLink={setActiveLink}
-        windowWidth={windowWidth}
       />
       <div className="navbar_wrapper">
         <h1 className="navbar_header">JustCook</h1>

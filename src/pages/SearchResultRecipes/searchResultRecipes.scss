@@ -14,6 +14,13 @@
       h3 {
         font-size: 25px;
       }
+
+      .searched_recipes_wrapper {
+        padding: 10px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+      }
     }
     .searchResult_right {
       padding: 20px;

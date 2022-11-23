@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import "./savedRecipe.scss";
 import { BiDotsVerticalRounded } from "react-icons/bi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { db } from "../../Firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
-
+import { AiOutlineDelete } from "react-icons/ai";
 function SavedRecipe({
   recipeName,
   recipeDocumentId,
@@ -14,6 +14,7 @@ function SavedRecipe({
   recipeOwner,
 }) {
   const { userDocumentId } = useSelector((state) => state.user);
+  const [openWarningBox, setOpenWarningBox] = useState(false);
 
   async function deleteSavedRecipeHandle(e) {
     e.stopPropagation();
@@ -28,16 +29,34 @@ function SavedRecipe({
     await updateDoc(docRef, { savedRecipes: currentSavedRecipes });
   }
 
+  function closeDeleteWarningBox(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    setOpenWarningBox(false);
+  }
+
   return (
     <Link to={`/recipe/${recipeDocumentId}`}>
       <div className="saved_recipe_wrapper">
-        <BiDotsVerticalRounded
+        <AiOutlineDelete
           className="three_dot_icon"
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
+            setOpenWarningBox(true);
           }}
         />
+        <div
+          className={
+            openWarningBox ? "warning_wrapper active" : "warning_wrapper"
+          }
+        >
+          <p>Are you sure you want to remove that recipe from your list?</p>
+          <div className="warning_button_wrapper">
+            <button onClick={closeDeleteWarningBox}>Close</button>
+            <button onClick={deleteSavedRecipeHandle}>Remove</button>
+          </div>
+        </div>
         <div className="saved_recipe_left_wrapper">
           <img src={recipePhoto} />
         </div>
@@ -54,7 +73,6 @@ function SavedRecipe({
           </p>
         </div>
       </div>
-      <button onClick={deleteSavedRecipeHandle}>Delete</button>
     </Link>
   );
 }
