@@ -1,8 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Navlink from "../Navlink/Navlink";
 import { FiSearch } from "react-icons/fi";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { CgCloseR } from "react-icons/cg";
+import { IoIosLogOut } from "react-icons/io";
+import { CiDark } from "react-icons/ci";
+
 import "./navbar.scss";
 import SmallScreenNavbar from "../SmallScreenNavbar/SmallScreenNavbar";
 import { signInWithGoogle } from "../../Firebase";
@@ -15,7 +18,7 @@ import {
   doc,
   getDocs,
 } from "firebase/firestore";
-import { reduxLogin } from "../../redux/userSlice";
+import { reduxLogin, reduxLogout } from "../../redux/userSlice";
 
 function Navbar({
   setActiveHamburgerMenu,
@@ -23,13 +26,10 @@ function Navbar({
   setActiveLink,
   acitveHamburgerMenu,
 }) {
-  // const { allUsers } = useSelector((state) => state.allUsers);
-  const { username, userPhoto } = useSelector((state) => state.user);
+  const { username, userPhoto, userRole } = useSelector((state) => state.user);
+  const [openLogoutWrapper, setOpenLogoutWrapper] = useState(false);
   const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   windowWidth > 850 && setActiveHamburgerMenu(false);
-  // }, []);
+  const logoutWrapperRef = useRef();
 
   async function signInHandle() {
     const userCollectionRef = collection(db, "users");
@@ -46,19 +46,17 @@ function Navbar({
       const updatedNameAndPhotoLinkUser = { ...foundUser };
       updatedNameAndPhotoLinkUser.userPhoto = signInResponse.user.photoURL;
       updatedNameAndPhotoLinkUser.username = signInResponse.user.displayName;
-
       delete updatedNameAndPhotoLinkUser.docId;
       const docRef = doc(db, "users", foundUser.docId);
-      await updateDoc(docRef, updatedNameAndPhotoLinkUser);
+      await updateDoc(docRef, {
+        userPhoto: signInResponse.user.photoURL,
+        username: signInResponse.user.displayName,
+      });
 
       const reduxUser = {
         ...updatedNameAndPhotoLinkUser,
         userDocumentId: foundUser.docId,
       };
-
-      console.log(
-        reduxUser.userPhoto === updatedNameAndPhotoLinkUser.userPhoto
-      );
 
       dispatch(reduxLogin(reduxUser));
       return;
@@ -71,10 +69,25 @@ function Navbar({
       savedRecipes: [],
       userRole: "User",
     };
-
     await addDoc(userCollectionRef, newUserObj);
     dispatch(reduxLogin(newUserObj));
   }
+  function logoutHandle() {
+    setOpenLogoutWrapper(false);
+    dispatch(reduxLogout());
+  }
+  // detect outside of div
+  useEffect(() => {
+    function handleClickOutsideLogoutWrapper(e) {
+      if (!logoutWrapperRef?.current?.contains(e.target)) {
+        setOpenLogoutWrapper(false);
+      }
+    }
+    window.addEventListener("click", handleClickOutsideLogoutWrapper);
+
+    return () =>
+      window.removeEventListener("click", handleClickOutsideLogoutWrapper);
+  }, []);
 
   return (
     <div className="navbar_outside_wrapper">
@@ -110,10 +123,34 @@ function Navbar({
             windowLoactinPath={activeLink}
             setActiveLink={setActiveLink}
           />
-
           {username ? (
-            <div className="currnet_userinfo_wrapper">
-              <img src={userPhoto} alt="Something Went Wrong" />
+            <div className="currnet_userinfo_wrapper" ref={logoutWrapperRef}>
+              <img
+                src={userPhoto}
+                alt="Something Went Wrong"
+                onClick={() => setOpenLogoutWrapper((prev) => !prev)}
+              />
+              <div
+                className={
+                  openLogoutWrapper ? "logout_Wrapper active" : "logout_Wrapper"
+                }
+              >
+                <div className="logout_userInfo_wrapper">
+                  <img src={userPhoto} alt="Something Went wrong" />
+                  <div className="logout_userInfo_right">
+                    <p>{username}</p>
+                    <p>{userRole}</p>
+                  </div>
+                </div>
+                <p className="link_wrapper">
+                  <CiDark className="link_wrapper_icon" />
+                  Change Dark Theme
+                </p>
+                <p className="link_wrapper" onClick={logoutHandle}>
+                  <IoIosLogOut className="link_wrapper_icon" />
+                  Sign Out
+                </p>
+              </div>
             </div>
           ) : (
             <button className="navbar_signUpBtn" onClick={signInHandle}>

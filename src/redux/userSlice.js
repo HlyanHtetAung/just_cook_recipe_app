@@ -29,7 +29,11 @@ const userSlice = createSlice({
     },
     reduxLogout: (state) => {
       state.username = "";
-      state.role = "";
+      state.userPhoto = "";
+      state.userId = "";
+      state.userRole = "";
+      state.savedRecipes = [];
+      state.userDocumentId = "";
     },
     editUserAccount: (state, action) => {
       const { data } = action.payload;

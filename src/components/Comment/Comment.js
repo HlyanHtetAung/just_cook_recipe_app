@@ -108,6 +108,34 @@ function Comment({
     }));
   }
 
+  async function deleteCommentHandle() {
+    const allComments = recipeDetail.comments;
+    const docRef = doc(db, "recipes", docId);
+    const toUpdateIndex = allComments.findIndex(
+      (comment) => comment.orignialCommentId === orignialCommentId
+    );
+
+    // For Reply Comments
+    if (repliedCommentId) {
+      const toUpdateRepliedIndex = allComments[
+        toUpdateIndex
+      ].repliedComments.findIndex(
+        (repComment) => repComment.repliedCommentId === repliedCommentId
+      );
+      allComments[toUpdateIndex].repliedComments.splice(
+        toUpdateRepliedIndex,
+        1
+      );
+      await updateDoc(docRef, { comments: allComments });
+      setShowCommentBox(false);
+      return;
+    }
+    // For Original Comment
+    allComments.splice(toUpdateIndex, 1);
+    await updateDoc(docRef, { comments: allComments });
+    setShowCommentBox(false);
+  }
+
   return (
     <div className="comment_wrapper">
       <div className="comment_inside_wrapper">
@@ -132,7 +160,7 @@ function Comment({
               <p>Reply</p>
             </button>
             {commentOwnerId === userId ? (
-              <button onClick={replyCommentHandle} name="reply">
+              <button onClick={deleteCommentHandle} name="delete">
                 <AiOutlineDelete />
                 <p>Delete</p>
               </button>
