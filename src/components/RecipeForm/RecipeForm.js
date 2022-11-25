@@ -213,20 +213,6 @@ function RecipeForm({
           stateValue={recipeDetail.recipeType}
         />
         <div className="recipe_ingredients_wrapper">
-          <div className="recipe_ingredients_left_wrapper">
-            <InputTextBox
-              textBoxHeader="Recipe Ingredients"
-              textOnChangeHandler={inputTextChangeHandle}
-              propertyName="recipeIngredientText"
-              stateValue={recipeDetail.recipeIngredientText}
-              placeholderValue="Enter a recipe ingredients"
-            />
-            {editIngredientBtnClicked ? (
-              <button onClick={editIngredientList}>Edit</button>
-            ) : (
-              <button onClick={addToIngerdientsList}>Add To list</button>
-            )}
-          </div>
           <div className="added_ingredients_wrapper">
             <p>Added ingredients ({recipeDetail?.recipeIngredients?.length})</p>
             <div className="added_ingredients">
@@ -249,31 +235,24 @@ function RecipeForm({
               ))}
             </div>
           </div>
-        </div>
-        <div className="recipe_ingredients_wrapper">
           <div className="recipe_ingredients_left_wrapper">
             <InputTextBox
-              textBoxHeader="Recipe Method Header"
+              textBoxHeader="Recipe Ingredients"
               textOnChangeHandler={inputTextChangeHandle}
-              propertyName="recipeMethodHeader"
-              stateValue={recipeDetail.recipeMethodHeader}
-              placeholderValue="Enter recipe method header"
-              textareaMode
+              propertyName="recipeIngredientText"
+              stateValue={recipeDetail.recipeIngredientText}
+              placeholderValue="Enter a recipe ingredients"
             />
-            <InputTextBox
-              textBoxHeader="Recipe Method Detail"
-              textOnChangeHandler={inputTextChangeHandle}
-              propertyName="recipeMethodLetter"
-              stateValue={recipeDetail.recipeMethodLetter}
-              placeholderValue="Enter a detail of method"
-              textareaMode
-            />
-            {editMethodBtnClicked ? (
-              <button onClick={editMethodHandle}>Edit Method</button>
+            {editIngredientBtnClicked ? (
+              <button onClick={editIngredientList}>Edit Ingredients</button>
             ) : (
-              <button onClick={addToMethodList}>Add To list</button>
+              <button onClick={addToIngerdientsList}>
+                Add Ingredients To list
+              </button>
             )}
           </div>
+        </div>
+        <div className="recipe_ingredients_wrapper">
           <div className="added_ingredients_wrapper">
             <p>Added Methods ({recipeDetail?.recipeMethods?.length})</p>
             <div className="added_ingredients">
@@ -303,8 +282,38 @@ function RecipeForm({
               ))}
             </div>
           </div>
+          <div className="recipe_ingredients_left_wrapper">
+            <InputTextBox
+              textBoxHeader="Recipe Method Header"
+              textOnChangeHandler={inputTextChangeHandle}
+              propertyName="recipeMethodHeader"
+              stateValue={recipeDetail.recipeMethodHeader}
+              placeholderValue="Enter recipe method header"
+              textareaMode
+            />
+            <InputTextBox
+              textBoxHeader="Recipe Method Detail"
+              textOnChangeHandler={inputTextChangeHandle}
+              propertyName="recipeMethodLetter"
+              stateValue={recipeDetail.recipeMethodLetter}
+              placeholderValue="Enter a detail of method"
+              textareaMode
+            />
+            {editMethodBtnClicked ? (
+              <button onClick={editMethodHandle}>Edit Method</button>
+            ) : (
+              <button onClick={addToMethodList}>Add Method To list</button>
+            )}
+          </div>
         </div>
         <div className="input_recipe_iamge_wrapper">
+          <img
+            src={
+              recipeDetail.recipePhoto
+                ? recipeDetail.recipePhoto
+                : "https://thumbs.dreamstime.com/b/gallery-line-icon-isolated-white-background-outline-symbol-website-design-mobile-application-ui-pictogram-vector-190294765.jpg"
+            }
+          />
           <button onClick={() => inputFileRef.current.click()}>
             <p>Click to add recipe Image</p>
             <RiImageAddFill className="add_image_icon" />
@@ -314,13 +323,6 @@ function RecipeForm({
             onChange={fileChangeHandle}
             ref={inputFileRef}
             style={{ display: "none" }}
-          />
-          <img
-            src={
-              recipeDetail.recipePhoto
-                ? recipeDetail.recipePhoto
-                : "https://thumbs.dreamstime.com/b/gallery-line-icon-isolated-white-background-outline-symbol-website-design-mobile-application-ui-pictogram-vector-190294765.jpg"
-            }
           />
         </div>
         <button

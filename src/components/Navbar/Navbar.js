@@ -57,7 +57,7 @@ function Navbar({
         ...updatedNameAndPhotoLinkUser,
         userDocumentId: foundUser.docId,
       };
-
+      console.log("reduxUser", reduxUser);
       dispatch(reduxLogin(reduxUser));
       return;
     }

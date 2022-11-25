@@ -51,6 +51,7 @@ function SearchResultRecipes() {
           <div className="searched_recipes_wrapper">
             {searchedRecipes?.map((recipe) => (
               <RecipeWithSavedIcon
+                key={recipe.docId}
                 recipeId={recipe.docId}
                 recipeName={recipe.recipeName}
                 recipePhoto={recipe.recipePhotoLink}

@@ -4,18 +4,13 @@ import { FiSearch } from "react-icons/fi";
 import { BsArrowLeftCircle, BsArrowRightCircle } from "react-icons/bs";
 import NewestRecipe from "../../components/NewestRecipe/NewestRecipe";
 import RecipeWithSavedIcon from "../../components/RecipeWithSavedIcon/RecipeWithSavedIcon";
-import {
-  collection,
-  getDocs,
-  onSnapshot,
-  query,
-  where,
-} from "firebase/firestore";
+import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "../../Firebase";
 import { useNavigate } from "react-router-dom";
 
 function Home() {
   const [allRecipes, setAllRecipes] = useState([]);
+
   const [recipeTypes, setRecipesTypes] = useState([
     {
       recipeTypeId: 1,

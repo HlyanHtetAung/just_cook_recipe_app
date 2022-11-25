@@ -29,3 +29,11 @@
     }
   }
 }
+
+@media screen and (max-width: 850px) {
+  .inputTextBox_wrapper {
+    textarea {
+      height: 120px;
+    }
+  }
+}
