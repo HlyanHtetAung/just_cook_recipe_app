@@ -1,16 +1,16 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { handleWordLimit } from "../../reuseFunctions";
 import "./newestRecipe.scss";
 
-function NewestRecipe({ recipeName }) {
+function NewestRecipe({ recipeName, recipePhoto }) {
   return (
-    <div className="newestRecipe_wrapper">
-      <img
-        src="https://burgerburger.co.nz/wp-content/uploads/2020/01/BC.jpg"
-        alt="Something Went Wrong"
-      />
-      <p>{handleWordLimit(recipeName, 40)}</p>
-    </div>
+    <Link>
+      <div className="newestRecipe_wrapper">
+        <img src={recipePhoto} alt="Something Went Wrong" />
+        <p>{handleWordLimit(recipeName, 25)}</p>
+      </div>
+    </Link>
   );
 }
 

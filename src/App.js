@@ -17,34 +17,14 @@ import EditRecipe from "./pages/EditRecipeForm/EditRecipe";
 import AddNewRecipe from "./pages/AddNewRecipe/AddNewRecipe";
 import SearchResultRecipes from "./pages/SearchResultRecipes/SearchResultRecipes";
 function App() {
-  const { userRole } = useSelector((state) => state.user);
-
-  const dispatch = useDispatch();
   // To contorl Navbar on small screen
   const [acitveHamburgerMenu, setActiveHamburgerMenu] = useState(false);
-
   const [activeLink, setActiveLink] = useState(
     "/" + window.location.pathname.split("/")[1]
   );
-
   useEffect(() => {
     setActiveLink("/" + window.location.pathname.split("/")[1]);
   }, []);
-
-  // useEffect(() => {
-  //   // get All users after app is mounted
-  //   const fetchAllUsers = () => {
-  //     const userCollectionRef = collection(db, "users");
-  //     onSnapshot(userCollectionRef, (snapshot) =>
-  //       dispatch(
-  //         getAllUsers(
-  //           snapshot.docs.map((doc) => ({ ...doc.data(), docId: doc.id }))
-  //         )
-  //       )
-  //     );
-  //   };
-  //   fetchAllUsers();
-  // }, []);
 
   return (
     <BrowserRouter>
@@ -55,7 +35,6 @@ function App() {
           setActiveLink={setActiveLink}
           acitveHamburgerMenu={acitveHamburgerMenu}
         />
-
         <Routes>
           <Route path="/">
             <Route index element={<Home />} />
@@ -70,6 +49,7 @@ function App() {
             />
           </Route>
         </Routes>
+
         <div className="app_footer_wrapper">
           <div className="app_footer">
             <div className="app_footer_left_side_wrapper">

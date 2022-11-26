@@ -4,13 +4,23 @@ import { FiSearch } from "react-icons/fi";
 import { BsArrowLeftCircle, BsArrowRightCircle } from "react-icons/bs";
 import NewestRecipe from "../../components/NewestRecipe/NewestRecipe";
 import RecipeWithSavedIcon from "../../components/RecipeWithSavedIcon/RecipeWithSavedIcon";
-import { collection, onSnapshot } from "firebase/firestore";
+import {
+  collection,
+  onSnapshot,
+  orderBy,
+  query,
+  limit,
+} from "firebase/firestore";
 import { db } from "../../Firebase";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { finishLoading, startLoading } from "../../redux/loadingSlice";
+import Loading from "../../components/Loading/Loading";
 
 function Home() {
+  const { loading } = useSelector((state) => state.loading);
   const [allRecipes, setAllRecipes] = useState([]);
-
+  const [newestRecipes, setNewestRecipes] = useState([]);
   const [recipeTypes, setRecipesTypes] = useState([
     {
       recipeTypeId: 1,
@@ -57,10 +67,12 @@ function Home() {
       recipeType: "Somewhere",
     },
   ]);
-
+  const dispatch = useDispatch();
   const [toMovePercentage, setToMovePercentage] = useState(0);
   const [currentStartPosition, setCurrentStartPosition] = useState(0);
   const [currentShownCarouselItems, setCurrentShownCarouselItems] = useState(0);
+  const navigate = useNavigate();
+  const [userSearchInput, setUserSearchInput] = useState("");
 
   function hanldeCarouselItemOnWindowWidth() {
     if (window.innerWidth > 1000) {
@@ -230,18 +242,32 @@ function Home() {
   }
 
   useEffect(() => {
+    async function fetchNewestRecieps() {
+      dispatch(startLoading());
+      const recipesCollectionRef = collection(db, "recipes");
+      const q = query(
+        recipesCollectionRef,
+        orderBy("timestamp", "desc"),
+        limit(5)
+      );
+      onSnapshot(q, (snapshot) => {
+        setNewestRecipes(
+          snapshot.docs.map((doc) => ({ ...doc.data(), docId: doc.id }))
+        );
+      });
+    }
     async function fetchAllRecipes() {
       const recipesCollectionRef = collection(db, "recipes");
-      onSnapshot(recipesCollectionRef, (snapshot) =>
+      onSnapshot(recipesCollectionRef, (snapshot) => {
         setAllRecipes(
           snapshot.docs.map((doc) => ({ ...doc.data(), docId: doc.id }))
-        )
-      );
+        );
+        dispatch(finishLoading());
+      });
     }
+    fetchNewestRecieps();
     fetchAllRecipes();
   }, []);
-  const navigate = useNavigate();
-  const [userSearchInput, setUserSearchInput] = useState("");
 
   function handleSearchRecipe(e) {
     const userInputValue = e.target.value;
@@ -255,71 +281,86 @@ function Home() {
   }
 
   return (
-    <div className="home_outside_wrapper">
-      <div className="home_wrapper">
-        <div className="image_overlayEffect"></div>
-        <div className="home_search_wrapper">
-          <h1 className="home_seach_header">Ready To Cook?</h1>
-          <div className="home_input_wrapper">
-            <FiSearch className="home_input_searchIcon" />
-            <input
-              type="text"
-              placeholder="Search for a recipe"
-              onChange={(e) => handleSearchRecipe(e)}
-              onKeyPress={(e) => handleKeyPress(e)}
-              value={userSearchInput}
-            />
+    <>
+      {loading ? (
+        <Loading />
+      ) : (
+        <div className="home_outside_wrapper">
+          <div className="home_wrapper">
+            <div className="image_overlayEffect"></div>
+            <div className="home_search_wrapper">
+              <h1 className="home_seach_header">Ready To Cook?</h1>
+              <div className="home_input_wrapper">
+                <FiSearch className="home_input_searchIcon" />
+                <input
+                  type="text"
+                  placeholder="Search for a recipe"
+                  onChange={(e) => handleSearchRecipe(e)}
+                  onKeyPress={(e) => handleKeyPress(e)}
+                  value={userSearchInput}
+                />
+              </div>
+              <div className="home_recipeType_wrapper">
+                <BsArrowLeftCircle
+                  className="home_recipeArrowIcon"
+                  onClick={() =>
+                    handleCarouselLeftBtn(currentShownCarouselItems)
+                  }
+                />
+                <BsArrowRightCircle
+                  className="home_recipeArrowIcon"
+                  onClick={() =>
+                    handleCarouselRightBtn(currentShownCarouselItems)
+                  }
+                />
+                <div className="recipeTypes_wrapper">
+                  {recipeTypes.map((recipe) => (
+                    <p
+                      style={{ transform: `translate(-${toMovePercentage}%)` }}
+                      className="recipesType"
+                      key={recipe.recipeTypeId}
+                    >
+                      {recipe.recipeType}
+                    </p>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="home_recipeType_wrapper">
-            <BsArrowLeftCircle
-              className="home_recipeArrowIcon"
-              onClick={() => handleCarouselLeftBtn(currentShownCarouselItems)}
-            />
-            <BsArrowRightCircle
-              className="home_recipeArrowIcon"
-              onClick={() => handleCarouselRightBtn(currentShownCarouselItems)}
-            />
-            <div className="recipeTypes_wrapper">
-              {recipeTypes.map((recipe) => (
-                <p
-                  style={{ transform: `translate(-${toMovePercentage}%)` }}
-                  className="recipesType"
-                  key={recipe.recipeTypeId}
-                >
-                  {recipe.recipeType}
-                </p>
+          <div className="newest_outside_recipesTypes_wrapper">
+            <div className="newest_recipeTypes_wrapper">
+              <h2 className="newest_recipes_header">Newest Recipes</h2>
+              <div className="newest_recipes_wrapper">
+                {newestRecipes.map((recipe) => (
+                  <RecipeWithSavedIcon
+                    key={recipe.docId}
+                    recipeId={recipe.docId}
+                    recipeName={recipe.recipeName}
+                    recipePhoto={recipe.recipePhotoLink}
+                  />
+                ))}
+              </div>
+              <div className="divider"></div>
+            </div>
+          </div>
+          <div className="popular_recipes_wrapper">
+            <h2 className="popular_recipes_header">
+              Popular Recipes These Days
+            </h2>
+            <div className="popular_recipes_conatiner">
+              {allRecipes.map((recipe) => (
+                <RecipeWithSavedIcon
+                  key={recipe.docId}
+                  recipeId={recipe.docId}
+                  recipeName={recipe.recipeName}
+                  recipePhoto={recipe.recipePhotoLink}
+                />
               ))}
             </div>
           </div>
         </div>
-      </div>
-      <div className="newest_outside_recipesTypes_wrapper">
-        <div className="newest_recipeTypes_wrapper">
-          <h2 className="newest_recipes_header">Newest Recipes</h2>
-          <div className="newest_recipes_wrapper">
-            <NewestRecipe recipeName="Burger King Burger" />
-            <NewestRecipe recipeName="Hello World" />
-            <NewestRecipe recipeName="Burger King" />
-            <NewestRecipe recipeName="Hello World" />
-            <NewestRecipe recipeName="Burger King" />
-          </div>
-          <div className="divider"></div>
-        </div>
-      </div>
-      <div className="popular_recipes_wrapper">
-        <h2 className="popular_recipes_header">Popular Recipes These Days</h2>
-        <div className="popular_recipes_conatiner">
-          {allRecipes.map((recipe) => (
-            <RecipeWithSavedIcon
-              key={recipe.docId}
-              recipeId={recipe.docId}
-              recipeName={recipe.recipeName}
-              recipePhoto={recipe.recipePhotoLink}
-            />
-          ))}
-        </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 }
 

@@ -6,7 +6,10 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 function RecipeWithSavedIcon({ recipePhoto, recipeName, recipeId }) {
-  const { savedRecipes, username } = useSelector((state) => state.user);
+  const { savedRecipes, username, userDocumentId } = useSelector(
+    (state) => state.user
+  );
+
   const [onSaveList, setOnSaveList] = useState(false);
 
   useEffect(() => {
@@ -14,9 +17,13 @@ function RecipeWithSavedIcon({ recipePhoto, recipeName, recipeId }) {
       (savRecipe) => savRecipe.recipeDocId == recipeId
     );
     if (onListAry.length > 0) {
+      console.log("true triggered");
       setOnSaveList(true);
+    } else {
+      console.log("false triggered");
+      setOnSaveList(false);
     }
-  }, [username, savedRecipes]);
+  }, [username, savedRecipes, userDocumentId]);
 
   return (
     <Link to={`/recipe/${recipeId}`}>
@@ -25,10 +32,12 @@ function RecipeWithSavedIcon({ recipePhoto, recipeName, recipeId }) {
           <img src={recipePhoto} alt="" />
           <div
             className={
-              onSaveList ? "like_icon_wrapper saved" : "like_icon_wrapper"
+              userDocumentId && onSaveList
+                ? "like_icon_wrapper saved"
+                : "like_icon_wrapper"
             }
           >
-            {onSaveList ? (
+            {userDocumentId && onSaveList ? (
               <AiFillHeart className="like_icon saved" />
             ) : (
               <AiOutlineHeart className="like_icon" />
@@ -36,12 +45,14 @@ function RecipeWithSavedIcon({ recipePhoto, recipeName, recipeId }) {
           </div>
           <p
             className={
-              onSaveList
+              userDocumentId && onSaveList
                 ? "click_to_save_warning_letter saved"
                 : "click_to_save_warning_letter"
             }
           >
-            {username && onSaveList ? "Already Saved" : "Click To Save Recipe"}
+            {userDocumentId && onSaveList
+              ? "Already Saved"
+              : "Click To Save Recipe"}
           </p>
         </div>
         <p>{handleWordLimit(recipeName, 50)}</p>

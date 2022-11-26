@@ -1,15 +1,18 @@
 import { collection, getDocs, query, where } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import Loading from "../../components/Loading/Loading";
 import RecipeWithSavedIcon from "../../components/RecipeWithSavedIcon/RecipeWithSavedIcon";
 import { db } from "../../Firebase";
+import { finishLoading, startLoading } from "../../redux/loadingSlice";
 import "./searchResultRecipes.scss";
 
 function SearchResultRecipes() {
+  const { loading } = useSelector((state) => state.loading);
   const params = useParams();
   const [searchedRecipes, setSearchedRecipes] = useState([]);
-  const [loading, setLoading] = useState(false);
-  console.log("params", params.searchInput);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const triGram = (txt) => {
@@ -23,6 +26,7 @@ function SearchResultRecipes() {
     };
 
     async function getSearchResult() {
+      dispatch(startLoading());
       const recipesRef = collection(db, "recipes");
       const q = query(
         recipesRef,
@@ -30,48 +34,53 @@ function SearchResultRecipes() {
           ...Object.keys(triGram(params.searchInput)),
         ])
       );
-      setLoading(true);
+
       const result = (await getDocs(q)).docs.map((doc) => ({
         ...doc.data(),
         docId: doc.id,
       }));
       setSearchedRecipes(result);
-      setLoading(false);
+      dispatch(finishLoading());
     }
     getSearchResult();
   }, []);
 
   console.log("searchedRecipes", searchedRecipes);
   return (
-    <div className="searchResultRecipes_wrapper">
-      {/* {loading ? "Loading..." : "Result Reipces"} */}
-      <div className="searchResult_wrapper">
-        <div className="searchResult_left">
-          <h3>Found Recipes ({searchedRecipes.length})</h3>
-          <div className="searched_recipes_wrapper">
-            {searchedRecipes?.map((recipe) => (
-              <RecipeWithSavedIcon
-                key={recipe.docId}
-                recipeId={recipe.docId}
-                recipeName={recipe.recipeName}
-                recipePhoto={recipe.recipePhotoLink}
-              />
-            ))}
+    <>
+      {loading ? (
+        <Loading />
+      ) : (
+        <div className="searchResultRecipes_wrapper">
+          <div className="searchResult_wrapper">
+            <div className="searchResult_left">
+              <h3>Found Recipes ({searchedRecipes.length})</h3>
+              <div className="searched_recipes_wrapper">
+                {searchedRecipes?.map((recipe) => (
+                  <RecipeWithSavedIcon
+                    key={recipe.docId}
+                    recipeId={recipe.docId}
+                    recipeName={recipe.recipeName}
+                    recipePhoto={recipe.recipePhotoLink}
+                  />
+                ))}
+              </div>
+            </div>
+            <div className="searchResult_right">
+              <h3>Food Types</h3>
+              <div className="food_types_wrapper">
+                <p>Myanmar</p>
+                <p>English</p>
+                <p>Mexican</p>
+                <p>Chinese</p>
+                <p>Spanish</p>
+                <p>Thai</p>
+              </div>
+            </div>
           </div>
         </div>
-        <div className="searchResult_right">
-          <h3>Food Types</h3>
-          <div className="food_types_wrapper">
-            <p>Myanmar</p>
-            <p>English</p>
-            <p>Mexican</p>
-            <p>Chinese</p>
-            <p>Spanish</p>
-            <p>Thai</p>
-          </div>
-        </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 }
 

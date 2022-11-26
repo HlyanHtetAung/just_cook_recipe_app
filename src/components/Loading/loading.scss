@@ -1,0 +1,41 @@
+@import "../../scssVariables.scss";
+
+.loading_wrapper {
+  min-height: calc(100vh - 135px);
+  background-color: $white-color;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .loading {
+    height: 300px;
+    width: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    color: $letter-color;
+    font-size: 25px;
+    font-weight: 500;
+
+    .spinner {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border: 10px solid transparent;
+      border-left-color: $hilight-color;
+      border-right-color: $hilight-color;
+      border-radius: 50%;
+      animation: rotate 1.2s ease-in-out infinite;
+
+      @keyframes rotate {
+        0% {
+          transform: rotate(0);
+        }
+        100% {
+          transform: rotate(180deg);
+        }
+      }
+    }
+  }
+}

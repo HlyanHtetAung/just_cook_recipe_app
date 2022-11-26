@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./navlink.scss";
+
 function Navlink({ linkName, linkPath, windowLoactinPath, setActiveLink }) {
   return (
     <Link to={linkPath} onClick={() => setActiveLink(linkPath)}>

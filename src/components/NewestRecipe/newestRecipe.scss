@@ -8,19 +8,19 @@
   img {
     height: 220px;
     object-fit: cover;
-    border-radius: 50%;
+    border-radius: 50px;
     border: 2px solid transparent;
   }
   p {
     color: $black-color;
-    // text-align: center;
+    text-align: center;
     line-height: 30px;
     font-size: $letter_size_wide_screen;
   }
 
   &:hover {
     img {
-      border-color: black;
+      border-color: $hilight-color;
     }
   }
 }

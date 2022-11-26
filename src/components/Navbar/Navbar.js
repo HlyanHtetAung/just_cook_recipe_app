@@ -11,7 +11,7 @@ import SmallScreenNavbar from "../SmallScreenNavbar/SmallScreenNavbar";
 
 import { useSelector, useDispatch } from "react-redux";
 
-import { reduxLogout } from "../../redux/userSlice";
+import { reduxLogout, updateSavedRecipes } from "../../redux/userSlice";
 import { signInHandle } from "../../reuseFunctions";
 
 function Navbar({
