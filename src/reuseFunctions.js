@@ -17,7 +17,9 @@ export function handleWordLimit(toLimitWord, limitAmount) {
   return toLimitWord;
 }
 
-export async function signInHandle(dispatch) {
+export async function signInHandle(e, dispatch) {
+  e.preventDefault();
+  e.stopPropagation();
   const userCollectionRef = collection(db, "users");
   const allUsersDocs = await getDocs(userCollectionRef);
   const signInResponse = await signInWithGoogle();
@@ -80,4 +82,23 @@ export async function savedRecipeHandle(
     dispatch(updateSavedRecipes({ data: toAddSavedRecipeAry }));
     await updateDoc(userDocRef, { savedRecipes: toAddSavedRecipeAry });
   }
+}
+
+export async function deleteSavedRecipeHandle(
+  e,
+  userDocumentId,
+  recipeDocId,
+  dispatch
+) {
+  e.stopPropagation();
+  e.preventDefault();
+  const docRef = doc(db, "users", userDocumentId);
+  const userResult = (await getDoc(docRef)).data();
+  const currentSavedRecipes = [...userResult.savedRecipes];
+  const toDeleteSavedRecipeIndex = currentSavedRecipes.findIndex(
+    (recipe) => recipe.recipeDocId === recipeDocId
+  );
+  currentSavedRecipes.splice(toDeleteSavedRecipeIndex, 1);
+  dispatch(updateSavedRecipes({ data: currentSavedRecipes }));
+  await updateDoc(docRef, { savedRecipes: currentSavedRecipes });
 }

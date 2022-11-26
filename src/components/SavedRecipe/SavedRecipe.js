@@ -7,9 +7,10 @@ import { db } from "../../Firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { AiOutlineDelete } from "react-icons/ai";
 import { updateSavedRecipes } from "../../redux/userSlice";
+import { deleteSavedRecipeHandle } from "../../reuseFunctions";
 function SavedRecipe({
   recipeName,
-  recipeDocumentId,
+  recipeDocId,
   recipePhoto,
   recipeIngredientsCount,
   recipeOwner,
@@ -17,19 +18,6 @@ function SavedRecipe({
   const { userDocumentId } = useSelector((state) => state.user);
   const [openWarningBox, setOpenWarningBox] = useState(false);
   const dispatch = useDispatch();
-  async function deleteSavedRecipeHandle(e) {
-    e.stopPropagation();
-    e.preventDefault();
-    const docRef = doc(db, "users", userDocumentId);
-    const userResult = (await getDoc(docRef)).data();
-    const currentSavedRecipes = [...userResult.savedRecipes];
-    const toDeleteSavedRecipeIndex = currentSavedRecipes.findIndex(
-      (recipe) => recipe.recipeDocId === recipeDocumentId
-    );
-    currentSavedRecipes.splice(toDeleteSavedRecipeIndex, 1);
-    dispatch(updateSavedRecipes({ data: currentSavedRecipes }));
-    await updateDoc(docRef, { savedRecipes: currentSavedRecipes });
-  }
 
   function closeDeleteWarningBox(e) {
     e.preventDefault();
@@ -38,7 +26,7 @@ function SavedRecipe({
   }
 
   return (
-    <Link to={`/recipe/${recipeDocumentId}`}>
+    <Link to={`/recipe/${recipeDocId}`}>
       <div className="saved_recipe_wrapper">
         <AiOutlineDelete
           className="three_dot_icon"
@@ -56,7 +44,18 @@ function SavedRecipe({
           <p>Are you sure you want to remove that recipe from your list?</p>
           <div className="warning_button_wrapper">
             <button onClick={closeDeleteWarningBox}>Close</button>
-            <button onClick={deleteSavedRecipeHandle}>Remove</button>
+            <button
+              onClick={(e) =>
+                deleteSavedRecipeHandle(
+                  e,
+                  userDocumentId,
+                  recipeDocId,
+                  dispatch
+                )
+              }
+            >
+              Remove
+            </button>
           </div>
         </div>
         <div className="saved_recipe_left_wrapper">

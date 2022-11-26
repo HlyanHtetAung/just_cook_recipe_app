@@ -1,4 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { signInHandle } from "../../reuseFunctions";
 import "./replyCommentInputBox.scss";
 
 function ReplyCommentInputBox({
@@ -10,8 +12,9 @@ function ReplyCommentInputBox({
   commentStarterInputBox,
 }) {
   const [userInput, setUserInput] = useState("");
+  const { username } = useSelector((state) => state.user);
   const textareaRef = useRef(null);
-
+  const dispatch = useDispatch();
   function textareaHeightHandle(e) {
     textareaRef.current.style.height = "45px";
     let scrollHeight = e.target.scrollHeight;
@@ -48,9 +51,13 @@ function ReplyCommentInputBox({
         <button
           className={userInput.length === 0 ? "disable_btn" : null}
           disabled={userInput.length === 0}
-          onClick={() => {
-            btnFunction(userInput);
-            commentStarterInputBox && setUserInput("");
+          onClick={(e) => {
+            if (username) {
+              btnFunction(userInput);
+              commentStarterInputBox && setUserInput("");
+              return;
+            }
+            signInHandle(e, dispatch);
           }}
         >
           {btnName}

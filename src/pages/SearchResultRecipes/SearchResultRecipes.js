@@ -37,7 +37,7 @@ function SearchResultRecipes() {
 
       const result = (await getDocs(q)).docs.map((doc) => ({
         ...doc.data(),
-        docId: doc.id,
+        recipeDocId: doc.id,
       }));
       setSearchedRecipes(result);
       dispatch(finishLoading());
@@ -58,8 +58,9 @@ function SearchResultRecipes() {
               <div className="searched_recipes_wrapper">
                 {searchedRecipes?.map((recipe) => (
                   <RecipeWithSavedIcon
-                    key={recipe.docId}
-                    recipeId={recipe.docId}
+                    recipeDetail={recipe}
+                    key={recipe.recipeDocId}
+                    recipeId={recipe.recipeDocId}
                     recipeName={recipe.recipeName}
                     recipePhoto={recipe.recipePhotoLink}
                   />

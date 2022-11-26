@@ -252,7 +252,7 @@ function Home() {
       );
       onSnapshot(q, (snapshot) => {
         setNewestRecipes(
-          snapshot.docs.map((doc) => ({ ...doc.data(), docId: doc.id }))
+          snapshot.docs.map((doc) => ({ ...doc.data(), recipeDocId: doc.id }))
         );
         dispatch(finishLoading());
       });
@@ -261,7 +261,7 @@ function Home() {
       const recipesCollectionRef = collection(db, "recipes");
       onSnapshot(recipesCollectionRef, (snapshot) => {
         setAllRecipes(
-          snapshot.docs.map((doc) => ({ ...doc.data(), docId: doc.id }))
+          snapshot.docs.map((doc) => ({ ...doc.data(), recipeDocId: doc.id }))
         );
       });
     }
@@ -333,8 +333,9 @@ function Home() {
               <div className="newest_recipes_wrapper">
                 {newestRecipes.map((recipe) => (
                   <RecipeWithSavedIcon
-                    key={recipe.docId}
-                    recipeId={recipe.docId}
+                    recipeDetail={recipe}
+                    key={recipe.recipeDocId}
+                    recipeId={recipe.recipeDocId}
                     recipeName={recipe.recipeName}
                     recipePhoto={recipe.recipePhotoLink}
                   />
@@ -350,8 +351,9 @@ function Home() {
             <div className="popular_recipes_conatiner">
               {allRecipes.map((recipe) => (
                 <RecipeWithSavedIcon
-                  key={recipe.docId}
-                  recipeId={recipe.docId}
+                  key={recipe.recipeDocId}
+                  recipeDetail={recipe}
+                  recipeId={recipe.recipeDocId}
                   recipeName={recipe.recipeName}
                   recipePhoto={recipe.recipePhotoLink}
                 />

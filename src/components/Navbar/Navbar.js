@@ -23,7 +23,7 @@ function Navbar({ setActiveHamburgerMenu, acitveHamburgerMenu }) {
 
   useEffect(() => {
     setActiveLink("/" + window.location.pathname.split("/")[1]);
-  }, [window.history]);
+  }, []);
 
   function logoutHandle() {
     setOpenLogoutWrapper(false);
@@ -68,12 +68,12 @@ function Navbar({ setActiveHamburgerMenu, acitveHamburgerMenu }) {
             />
           ) : null}
 
-          <Navlink
+          {/* <Navlink
             linkName="About Us"
             linkPath="/aboutUs"
             windowLoactinPath={activeLink}
             setActiveLink={setActiveLink}
-          />
+          /> */}
 
           <Navlink
             linkName="Saved Recipes"
@@ -113,7 +113,7 @@ function Navbar({ setActiveHamburgerMenu, acitveHamburgerMenu }) {
           ) : (
             <button
               className="navbar_signUpBtn"
-              onClick={() => signInHandle(dispatch)}
+              onClick={(e) => signInHandle(e, dispatch)}
             >
               Login with Google
             </button>

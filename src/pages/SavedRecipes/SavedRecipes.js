@@ -35,7 +35,7 @@ function SavedRecipes() {
               recipePhoto={recipe.recipePhotoLink}
               recipeIngredientsCount={recipe.recipeIngredients.length}
               recipeOwner={recipe.createdBy}
-              recipeDocumentId={recipe.recipeDocId}
+              recipeDocId={recipe.recipeDocId}
             />
           ))}
         </div>

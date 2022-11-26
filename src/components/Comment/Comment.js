@@ -158,8 +158,8 @@ function Comment({
               </button>
             ) : null}
             <button
-              onClick={() =>
-                username ? replyCommentHandle() : signInHandle(dispatch)
+              onClick={(e) =>
+                username ? replyCommentHandle() : signInHandle(e, dispatch)
               }
               name="reply"
             >

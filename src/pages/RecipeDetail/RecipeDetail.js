@@ -5,7 +5,6 @@ import ReplyCommentInputBox from "../../components/ReplyCommentInputBox/ReplyCom
 import ScrollToTopOnMount from "../../ScrollToTopOnMount";
 import {
   doc,
-  getDoc,
   updateDoc,
   Timestamp,
   onSnapshot,
@@ -60,16 +59,8 @@ function RecipeDetail() {
     await updateDoc(docRef, { comments: updatedComments });
   }
 
-  async function fetchOnUserInputTest() {
-    const recipesCollectionRef = collection(db, "recipes");
-    const q = query(recipesCollectionRef, startAt());
-    const result = (await getDocs(q)).docs.map((doc) => ({ ...doc.data() }));
-    console.log("result", result);
-  }
-
   return (
     <div className="recipe_detail_wrapper">
-      <button onClick={fetchOnUserInputTest}>fetch</button>
       <ScrollToTopOnMount />
       <Link to={`/editRecipe/${params.recipeId}`}>
         <button>Edit Recipe</button>
@@ -83,10 +74,10 @@ function RecipeDetail() {
             <h2>{recipeDetail?.recipeName}</h2>
             <p>By {recipeDetail?.createdBy}</p>
             <button
-              onClick={() =>
+              onClick={(e) =>
                 username
                   ? savedRecipeHandle(recipeDetail, dispatch, userDocumentId)
-                  : signInHandle(dispatch)
+                  : signInHandle(e, dispatch)
               }
             >
               Save Recipe

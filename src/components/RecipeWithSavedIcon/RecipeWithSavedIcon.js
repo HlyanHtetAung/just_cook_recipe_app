@@ -1,15 +1,26 @@
 import React, { useEffect, useState } from "react";
 import "./recipeWithSavedIcon.scss";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
-import { handleWordLimit } from "../../reuseFunctions";
+import {
+  deleteSavedRecipeHandle,
+  handleWordLimit,
+  savedRecipeHandle,
+  signInHandle,
+} from "../../reuseFunctions";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-function RecipeWithSavedIcon({ recipePhoto, recipeName, recipeId }) {
+function RecipeWithSavedIcon({
+  recipePhoto,
+  recipeName,
+  recipeId,
+  recipeDetail,
+}) {
   const { savedRecipes, username, userDocumentId } = useSelector(
     (state) => state.user
   );
 
+  const dispatch = useDispatch();
   const [onSaveList, setOnSaveList] = useState(false);
 
   useEffect(() => {
@@ -23,12 +34,24 @@ function RecipeWithSavedIcon({ recipePhoto, recipeName, recipeId }) {
     }
   }, [username, savedRecipes, userDocumentId]);
 
+  function heartIconSavedHandle(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    onSaveList
+      ? deleteSavedRecipeHandle(e, userDocumentId, recipeId, dispatch)
+      : savedRecipeHandle(recipeDetail, dispatch, userDocumentId);
+  }
+
   return (
     <Link to={`/recipe/${recipeId}`}>
       <div className="recipeWithSavedIcon_wrapper">
         <div className="recipe_image_wrapper">
           <img src={recipePhoto} alt="" />
           <div
+            onClick={(e) =>
+              username ? heartIconSavedHandle(e) : signInHandle(e, dispatch)
+            }
             className={
               userDocumentId && onSaveList
                 ? "like_icon_wrapper saved"
@@ -49,7 +72,7 @@ function RecipeWithSavedIcon({ recipePhoto, recipeName, recipeId }) {
             }
           >
             {userDocumentId && onSaveList
-              ? "Already Saved"
+              ? "Click to unsaved"
               : "Click To Save Recipe"}
           </p>
         </div>

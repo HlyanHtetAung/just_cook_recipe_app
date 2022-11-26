@@ -1,7 +1,7 @@
 @import "../../scssVariables.scss";
 .smallScreenNavbar_wrapper {
-  position: absolute;
-  top: 0;
+  position: fixed;
+  top: 135px;
   left: 0;
   background-color: $white-color;
   width: 100%;
@@ -9,10 +9,9 @@
   z-index: 998;
   opacity: 0;
   pointer-events: none;
-  transition: top 300ms ease;
+  transition: 400ms ease;
 
   &.active {
-    top: 135px;
     opacity: 1;
     pointer-events: visible;
   }
