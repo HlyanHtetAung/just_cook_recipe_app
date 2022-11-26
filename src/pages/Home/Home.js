@@ -254,6 +254,7 @@ function Home() {
         setNewestRecipes(
           snapshot.docs.map((doc) => ({ ...doc.data(), docId: doc.id }))
         );
+        dispatch(finishLoading());
       });
     }
     async function fetchAllRecipes() {
@@ -262,7 +263,6 @@ function Home() {
         setAllRecipes(
           snapshot.docs.map((doc) => ({ ...doc.data(), docId: doc.id }))
         );
-        dispatch(finishLoading());
       });
     }
     fetchNewestRecieps();

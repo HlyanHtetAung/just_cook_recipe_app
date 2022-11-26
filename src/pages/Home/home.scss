@@ -1,5 +1,6 @@
 @import "../../scssVariables.scss";
 .home_outside_wrapper {
+  margin-bottom: 20px;
   .home_wrapper {
     position: relative;
     height: 400px;
@@ -121,11 +122,11 @@
       margin: $app-margin;
       .newest_recipes_header {
         padding-top: 20px;
-        text-align: center;
-        color: $hilight-color;
-        font-size: $heading_size_wide_screen;
+        color: $black-color;
+
         font-weight: 700;
-        font-size: 28px;
+        font-size: 25px;
+        text-align: center;
       }
       .newest_recipes_wrapper {
         margin-top: 30px;
@@ -136,7 +137,7 @@
       .divider {
         width: 100%;
         height: 0.5px;
-        background-color: $hilight-color;
+        background-color: rgba(242, 242, 242, 1);
         margin-top: 30px;
       }
     }
@@ -145,10 +146,12 @@
   .popular_recipes_wrapper {
     margin: $app-margin;
     .popular_recipes_header {
-      text-align: center;
       margin-top: 20px;
-      color: $hilight-color;
-      font-size: $heading_size_wide_screen;
+      color: $black-color;
+
+      font-size: 25px;
+      text-align: center;
+      font-weight: 700;
     }
     .popular_recipes_conatiner {
       margin-top: 30px;

@@ -17,10 +17,8 @@ function RecipeWithSavedIcon({ recipePhoto, recipeName, recipeId }) {
       (savRecipe) => savRecipe.recipeDocId == recipeId
     );
     if (onListAry.length > 0) {
-      console.log("true triggered");
       setOnSaveList(true);
     } else {
-      console.log("false triggered");
       setOnSaveList(false);
     }
   }, [username, savedRecipes, userDocumentId]);

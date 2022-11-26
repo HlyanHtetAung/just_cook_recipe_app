@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import "./app.scss";
-import { useSelector, useDispatch } from "react-redux";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
 import AboutUs from "./pages/AboutUs/AboutUs";
 import Home from "./pages/Home/Home";
@@ -10,29 +9,18 @@ import { AiOutlineInstagram } from "react-icons/ai";
 import { SlSocialTwitter } from "react-icons/sl";
 import { MdFacebook } from "react-icons/md";
 import RecipeDetail from "./pages/RecipeDetail/RecipeDetail";
-import { collection, onSnapshot } from "firebase/firestore";
-import { db } from "./Firebase";
-import { getAllUsers } from "./redux/allUsersSlice";
 import EditRecipe from "./pages/EditRecipeForm/EditRecipe";
 import AddNewRecipe from "./pages/AddNewRecipe/AddNewRecipe";
 import SearchResultRecipes from "./pages/SearchResultRecipes/SearchResultRecipes";
 function App() {
   // To contorl Navbar on small screen
   const [acitveHamburgerMenu, setActiveHamburgerMenu] = useState(false);
-  const [activeLink, setActiveLink] = useState(
-    "/" + window.location.pathname.split("/")[1]
-  );
-  useEffect(() => {
-    setActiveLink("/" + window.location.pathname.split("/")[1]);
-  }, []);
 
   return (
     <BrowserRouter>
       <div className="app">
         <Navbar
           setActiveHamburgerMenu={setActiveHamburgerMenu}
-          activeLink={activeLink}
-          setActiveLink={setActiveLink}
           acitveHamburgerMenu={acitveHamburgerMenu}
         />
         <Routes>

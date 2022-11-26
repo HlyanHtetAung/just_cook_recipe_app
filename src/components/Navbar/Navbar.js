@@ -11,24 +11,25 @@ import SmallScreenNavbar from "../SmallScreenNavbar/SmallScreenNavbar";
 
 import { useSelector, useDispatch } from "react-redux";
 
-import { reduxLogout, updateSavedRecipes } from "../../redux/userSlice";
+import { reduxLogout } from "../../redux/userSlice";
 import { signInHandle } from "../../reuseFunctions";
 
-function Navbar({
-  setActiveHamburgerMenu,
-  activeLink,
-  setActiveLink,
-  acitveHamburgerMenu,
-}) {
+function Navbar({ setActiveHamburgerMenu, acitveHamburgerMenu }) {
   const { username, userPhoto, userRole } = useSelector((state) => state.user);
   const [openLogoutWrapper, setOpenLogoutWrapper] = useState(false);
   const dispatch = useDispatch();
   const logoutWrapperRef = useRef();
+  const [activeLink, setActiveLink] = useState("");
+
+  useEffect(() => {
+    setActiveLink("/" + window.location.pathname.split("/")[1]);
+  }, [window.history]);
 
   function logoutHandle() {
     setOpenLogoutWrapper(false);
     dispatch(reduxLogout());
   }
+
   // detect outside of div
   useEffect(() => {
     function handleClickOutsideLogoutWrapper(e) {
@@ -73,6 +74,7 @@ function Navbar({
             windowLoactinPath={activeLink}
             setActiveLink={setActiveLink}
           />
+
           <Navlink
             linkName="Saved Recipes"
             linkPath="/savedRecipes"

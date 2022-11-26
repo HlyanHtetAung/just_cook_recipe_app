@@ -28,6 +28,7 @@ export async function signInHandle(dispatch) {
   console.log("foundUser", foundUser);
 
   if (foundUser !== undefined) {
+    console.log("userphotoUrl", signInResponse.user.photoURL);
     console.log("found User render");
     const updatedNameAndPhotoLinkUser = { ...foundUser };
     updatedNameAndPhotoLinkUser.userPhoto = signInResponse.user.photoURL;
@@ -55,6 +56,7 @@ export async function signInHandle(dispatch) {
     savedRecipes: [],
     userRole: "User",
   };
+
   await addDoc(userCollectionRef, newUserObj);
   dispatch(reduxLogin(newUserObj));
 }
