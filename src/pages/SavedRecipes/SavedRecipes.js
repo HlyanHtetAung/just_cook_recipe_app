@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 function SavedRecipes() {
   const { userId } = useSelector((state) => state.user);
   const [userDetail, setUserDetail] = useState([]);
-  console.log("userDetail", userDetail);
+
   useEffect(() => {
     async function fetchUserDetail() {
       const usersCollectionRef = collection(db, "users");

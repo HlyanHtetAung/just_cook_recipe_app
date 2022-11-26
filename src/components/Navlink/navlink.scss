@@ -4,8 +4,10 @@
   color: $black-color;
   text-decoration: none;
   border-bottom: 5px solid transparent;
-  text-transform: uppercase;
+
   width: fit-content;
+  font-size: 18px;
+  font-weight: 500;
   &.active {
     border-bottom: 5px solid $hilight-color;
   }

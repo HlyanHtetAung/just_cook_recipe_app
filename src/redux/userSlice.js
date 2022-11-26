@@ -35,13 +35,14 @@ const userSlice = createSlice({
       state.savedRecipes = [];
       state.userDocumentId = "";
     },
-    editUserAccount: (state, action) => {
+    updateSavedRecipes: (state, action) => {
       const { data } = action.payload;
-      state.role = data;
+      state.savedRecipes = data;
     },
   },
 });
 
-export const { reduxLogin, reduxLogout, editUserAccount } = userSlice.actions;
+export const { reduxLogin, reduxLogout, editUserAccount, updateSavedRecipes } =
+  userSlice.actions;
 
 export default userSlice.reducer;

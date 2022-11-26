@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import "./savedRecipe.scss";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { db } from "../../Firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { AiOutlineDelete } from "react-icons/ai";
+import { updateSavedRecipes } from "../../redux/userSlice";
 function SavedRecipe({
   recipeName,
   recipeDocumentId,
@@ -15,7 +16,7 @@ function SavedRecipe({
 }) {
   const { userDocumentId } = useSelector((state) => state.user);
   const [openWarningBox, setOpenWarningBox] = useState(false);
-
+  const dispatch = useDispatch();
   async function deleteSavedRecipeHandle(e) {
     e.stopPropagation();
     e.preventDefault();
@@ -26,6 +27,7 @@ function SavedRecipe({
       (recipe) => recipe.recipeDocId === recipeDocumentId
     );
     currentSavedRecipes.splice(toDeleteSavedRecipeIndex, 1);
+    dispatch(updateSavedRecipes({ data: currentSavedRecipes }));
     await updateDoc(docRef, { savedRecipes: currentSavedRecipes });
   }
 

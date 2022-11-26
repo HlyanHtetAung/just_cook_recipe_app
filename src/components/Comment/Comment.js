@@ -7,7 +7,8 @@ import ReplyCommentInputBox from "../ReplyCommentInputBox/ReplyCommentInputBox";
 import { doc, Timestamp, updateDoc } from "firebase/firestore";
 import { db } from "../../Firebase";
 import { v4 } from "uuid";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { signInHandle } from "../../reuseFunctions";
 
 function Comment({
   userPhotoUrl,
@@ -22,6 +23,7 @@ function Comment({
 }) {
   const { username, userId, userPhoto } = useSelector((state) => state.user);
   const [showCommentBox, setShowCommentBox] = useState(false);
+  const dispatch = useDispatch();
   const [commentBtn, setCommentBtn] = useState({
     buttonName: "",
     buttonFunction: "",
@@ -155,7 +157,12 @@ function Comment({
                 <p>Edit</p>
               </button>
             ) : null}
-            <button onClick={replyCommentHandle} name="reply">
+            <button
+              onClick={() =>
+                username ? replyCommentHandle() : signInHandle(dispatch)
+              }
+              name="reply"
+            >
               <BiCommentMinus />
               <p>Reply</p>
             </button>

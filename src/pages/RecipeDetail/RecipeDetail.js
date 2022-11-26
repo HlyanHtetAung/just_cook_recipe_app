@@ -7,23 +7,22 @@ import {
   doc,
   getDoc,
   updateDoc,
-  serverTimestamp,
   Timestamp,
   onSnapshot,
   query,
-  orderBy,
   collection,
-  where,
   getDocs,
   startAt,
 } from "firebase/firestore";
 import { db } from "../../Firebase";
 import "./recipeDetail.scss";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { v4 } from "uuid";
+import { savedRecipeHandle, signInHandle } from "../../reuseFunctions";
 
 function RecipeDetail() {
   const params = useParams();
+  const dispatch = useDispatch();
   const { username, userPhoto, userId, userDocumentId } = useSelector(
     (state) => state.user
   );
@@ -61,17 +60,6 @@ function RecipeDetail() {
     await updateDoc(docRef, { comments: updatedComments });
   }
 
-  async function savedRecipeHandle() {
-    const userDocRef = doc(db, "users", userDocumentId);
-    const currentUserResult = (await getDoc(userDocRef)).data();
-
-    const toAddSavedRecipeAry = [
-      ...currentUserResult.savedRecipes,
-      { ...recipeDetail },
-    ];
-    await updateDoc(userDocRef, { savedRecipes: toAddSavedRecipeAry });
-  }
-
   async function fetchOnUserInputTest() {
     const recipesCollectionRef = collection(db, "recipes");
     const q = query(recipesCollectionRef, startAt());
@@ -94,7 +82,15 @@ function RecipeDetail() {
           <div className="recipe_headerInfo_wrapper">
             <h2>{recipeDetail?.recipeName}</h2>
             <p>By {recipeDetail?.createdBy}</p>
-            <button onClick={savedRecipeHandle}>Save Recipe</button>
+            <button
+              onClick={() =>
+                username
+                  ? savedRecipeHandle(recipeDetail, dispatch, userDocumentId)
+                  : signInHandle(dispatch)
+              }
+            >
+              Save Recipe
+            </button>
           </div>
         </div>
         <div className="recipe_ingredients_wrapper">

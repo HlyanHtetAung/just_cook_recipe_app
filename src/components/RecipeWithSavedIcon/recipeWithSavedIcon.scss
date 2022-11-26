@@ -21,14 +21,19 @@
       position: absolute;
       bottom: 15px;
       left: 15px;
-      padding: 8px 20px;
+      padding: 5px 20px;
       opacity: 0;
       pointer-events: none;
       transform: translateX(10%);
       background-color: $hilight-color;
       color: $white-color;
-      font-size: $letter_size_wide_screen;
+      font-size: 15px;
       border-radius: 9px;
+      font-weight: 500;
+      &.saved {
+        background-color: $white-color;
+        color: $hilight-color;
+      }
     }
 
     .like_icon_wrapper {
@@ -42,12 +47,19 @@
       align-items: center;
       justify-content: center;
       border-radius: 50%;
-
+      &.saved {
+        background-color: $white-color;
+      }
       .like_icon {
         color: $white-color;
         background-color: transparent;
         width: 30px;
         height: 30px;
+
+        &.saved {
+          color: $hilight-color;
+          background-color: transparent;
+        }
       }
 
       &:hover {

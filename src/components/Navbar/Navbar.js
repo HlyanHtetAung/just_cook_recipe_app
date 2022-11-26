@@ -8,17 +8,11 @@ import { CiDark } from "react-icons/ci";
 
 import "./navbar.scss";
 import SmallScreenNavbar from "../SmallScreenNavbar/SmallScreenNavbar";
-import { signInWithGoogle } from "../../Firebase";
+
 import { useSelector, useDispatch } from "react-redux";
-import { db } from "../../Firebase";
-import {
-  collection,
-  addDoc,
-  updateDoc,
-  doc,
-  getDocs,
-} from "firebase/firestore";
-import { reduxLogin, reduxLogout } from "../../redux/userSlice";
+
+import { reduxLogout } from "../../redux/userSlice";
+import { signInHandle } from "../../reuseFunctions";
 
 function Navbar({
   setActiveHamburgerMenu,
@@ -31,47 +25,6 @@ function Navbar({
   const dispatch = useDispatch();
   const logoutWrapperRef = useRef();
 
-  async function signInHandle() {
-    const userCollectionRef = collection(db, "users");
-    const allUsersDocs = await getDocs(userCollectionRef);
-    const signInResponse = await signInWithGoogle();
-
-    const foundUser = allUsersDocs.docs
-      .map((user) => ({ ...user.data(), docId: user.id }))
-      .find((usr) => usr.userId === signInResponse.user?.uid);
-    console.log("foundUser", foundUser);
-
-    if (foundUser !== undefined) {
-      console.log("found User render");
-      const updatedNameAndPhotoLinkUser = { ...foundUser };
-      updatedNameAndPhotoLinkUser.userPhoto = signInResponse.user.photoURL;
-      updatedNameAndPhotoLinkUser.username = signInResponse.user.displayName;
-      delete updatedNameAndPhotoLinkUser.docId;
-      const docRef = doc(db, "users", foundUser.docId);
-      await updateDoc(docRef, {
-        userPhoto: signInResponse.user.photoURL,
-        username: signInResponse.user.displayName,
-      });
-
-      const reduxUser = {
-        ...updatedNameAndPhotoLinkUser,
-        userDocumentId: foundUser.docId,
-      };
-      console.log("reduxUser", reduxUser);
-      dispatch(reduxLogin(reduxUser));
-      return;
-    }
-
-    const newUserObj = {
-      username: signInResponse.user.displayName,
-      userPhoto: signInResponse.user.photoURL,
-      userId: signInResponse.user.uid,
-      savedRecipes: [],
-      userRole: "User",
-    };
-    await addDoc(userCollectionRef, newUserObj);
-    dispatch(reduxLogin(newUserObj));
-  }
   function logoutHandle() {
     setOpenLogoutWrapper(false);
     dispatch(reduxLogout());
@@ -105,12 +58,15 @@ function Navbar({
             windowLoactinPath={activeLink}
             setActiveLink={setActiveLink}
           />
-          <Navlink
-            linkName="Add New Recipe"
-            linkPath="/addNewRecipe"
-            windowLoactinPath={activeLink}
-            setActiveLink={setActiveLink}
-          />
+          {userRole === "Admin" ? (
+            <Navlink
+              linkName="Add New Recipe"
+              linkPath="/addNewRecipe"
+              windowLoactinPath={activeLink}
+              setActiveLink={setActiveLink}
+            />
+          ) : null}
+
           <Navlink
             linkName="About Us"
             linkPath="/aboutUs"
@@ -153,7 +109,10 @@ function Navbar({
               </div>
             </div>
           ) : (
-            <button className="navbar_signUpBtn" onClick={signInHandle}>
+            <button
+              className="navbar_signUpBtn"
+              onClick={() => signInHandle(dispatch)}
+            >
               Login with Google
             </button>
           )}
