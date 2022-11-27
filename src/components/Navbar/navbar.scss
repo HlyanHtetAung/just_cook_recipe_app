@@ -25,6 +25,57 @@
       align-items: center;
       gap: 20px;
 
+      .recipe_dropdown_wrapper {
+        position: relative;
+        cursor: pointer;
+        .recipe_navLink_wrapper {
+          display: flex;
+          align-items: center;
+
+          .arrowDown_icon {
+            width: 25px;
+            height: 25px;
+          }
+          h3 {
+            font-size: 18px;
+            font-weight: 500;
+            width: fit-content;
+          }
+        }
+
+        &:hover {
+          .dropdown_links_wrapper {
+            transition: 400ms ease;
+            top: 100%;
+            opacity: 1;
+            pointer-events: visible;
+          }
+        }
+        .dropdown_links_wrapper {
+          position: absolute;
+          display: block;
+          width: 220px;
+          text-decoration: none;
+          list-style: none;
+          background-color: $white-color;
+          padding: 10px;
+          box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+          border-radius: 10px;
+          top: 98%;
+          opacity: 0;
+          pointer-events: none;
+          li {
+            padding: 7px 5px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: 200;
+            color: $letter-color;
+            &:hover {
+              color: $hilight-color;
+            }
+          }
+        }
+      }
       .currnet_userinfo_wrapper {
         position: relative;
         display: flex;

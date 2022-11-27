@@ -3,8 +3,9 @@ import Navlink from "../Navlink/Navlink";
 import { FiSearch } from "react-icons/fi";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { CgCloseR } from "react-icons/cg";
-import { IoIosLogOut } from "react-icons/io";
+import { IoIosLogOut, IoMdArrowDropdown } from "react-icons/io";
 import { CiDark } from "react-icons/ci";
+import { BsArrowDownShort } from "react-icons/bs";
 
 import "./navbar.scss";
 import SmallScreenNavbar from "../SmallScreenNavbar/SmallScreenNavbar";
@@ -13,6 +14,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { reduxLogout } from "../../redux/userSlice";
 import { signInHandle } from "../../reuseFunctions";
+import { Link } from "react-router-dom";
 
 function Navbar({ setActiveHamburgerMenu, acitveHamburgerMenu }) {
   const { username, userPhoto, userRole } = useSelector((state) => state.user);
@@ -59,13 +61,25 @@ function Navbar({ setActiveHamburgerMenu, acitveHamburgerMenu }) {
             windowLoactinPath={activeLink}
             setActiveLink={setActiveLink}
           />
+
           {userRole === "Admin" ? (
-            <Navlink
-              linkName="Add New Recipe"
-              linkPath="/addNewRecipe"
-              windowLoactinPath={activeLink}
-              setActiveLink={setActiveLink}
-            />
+            <div className="recipe_dropdown_wrapper">
+              <div className="recipe_navLink_wrapper">
+                <h3>Recipes</h3>
+                <IoMdArrowDropdown className="arrowDown_icon" />
+                <ul className="dropdown_links_wrapper">
+                  <Link to="/addNewRecipe">
+                    <li>Add New Recipe</li>
+                  </Link>
+                  <Link to="/addNewRecipeType">
+                    <li>Add New Recipe Type</li>
+                  </Link>
+                  <Link to="/allRecipesTable">
+                    <li>View All Recipes</li>
+                  </Link>
+                </ul>
+              </div>
+            </div>
           ) : null}
 
           {/* <Navlink

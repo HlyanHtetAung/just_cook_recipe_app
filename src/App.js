@@ -12,6 +12,8 @@ import RecipeDetail from "./pages/RecipeDetail/RecipeDetail";
 import EditRecipe from "./pages/EditRecipeForm/EditRecipe";
 import AddNewRecipe from "./pages/AddNewRecipe/AddNewRecipe";
 import SearchResultRecipes from "./pages/SearchResultRecipes/SearchResultRecipes";
+import AddNewRecipeType from "./pages/AddNewRecipeType/AddNewRecipeType";
+import ViewAllRecipes from "./pages/ViewAllRecipes/ViewAllRecipes";
 function App() {
   // To contorl Navbar on small screen
   const [acitveHamburgerMenu, setActiveHamburgerMenu] = useState(false);
@@ -29,6 +31,8 @@ function App() {
             <Route path="aboutUs" element={<AboutUs />} />
             <Route path="savedRecipes" element={<SavedRecipes />} />
             <Route path="addNewRecipe" element={<AddNewRecipe />} />
+            <Route path="addNewRecipeType" element={<AddNewRecipeType />} />
+            <Route path="allRecipesTable" element={<ViewAllRecipes />} />
             <Route path="editRecipe/:recipeDocId" element={<EditRecipe />} />
             <Route path="recipe/:recipeId" element={<RecipeDetail />} />
             <Route
