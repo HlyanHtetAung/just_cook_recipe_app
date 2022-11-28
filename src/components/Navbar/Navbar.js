@@ -138,7 +138,7 @@ function Navbar({ setActiveHamburgerMenu, acitveHamburgerMenu }) {
             <div className="currnet_userinfo_wrapper" ref={logoutWrapperRef}>
               <img
                 src={userPhoto}
-                alt="Something Went Wrong"
+                alt="403"
                 onClick={() => setOpenLogoutWrapper((prev) => !prev)}
               />
               <div
@@ -147,7 +147,7 @@ function Navbar({ setActiveHamburgerMenu, acitveHamburgerMenu }) {
                 }
               >
                 <div className="logout_userInfo_wrapper">
-                  <img src={userPhoto} alt="Something Went wrong" />
+                  <img src={userPhoto} alt="" />
                   <div className="logout_userInfo_right">
                     <p>{username}</p>
                     <p>{userRole}</p>

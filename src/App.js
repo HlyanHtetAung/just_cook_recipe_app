@@ -14,10 +14,13 @@ import AddNewRecipe from "./pages/AddNewRecipe/AddNewRecipe";
 import SearchResultRecipes from "./pages/SearchResultRecipes/SearchResultRecipes";
 import AddNewRecipeType from "./pages/AddNewRecipeType/AddNewRecipeType";
 import ViewAllRecipes from "./pages/ViewAllRecipes/ViewAllRecipes";
+import { useSelector } from "react-redux";
+import SearchResultByType from "./pages/searchResultByType/SearchResultByType";
 function App() {
   // To contorl Navbar on small screen
   const [acitveHamburgerMenu, setActiveHamburgerMenu] = useState(false);
-
+  const user = useSelector((state) => state.user);
+  console.log("User", user);
   return (
     <BrowserRouter>
       <div className="app">
@@ -38,6 +41,10 @@ function App() {
             <Route
               path="recipes/searchResult=:searchInput"
               element={<SearchResultRecipes />}
+            />
+            <Route
+              path="recipes/searchRecipeType=:recipeType"
+              element={<SearchResultByType />}
             />
           </Route>
         </Routes>

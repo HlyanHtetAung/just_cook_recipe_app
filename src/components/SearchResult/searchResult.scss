@@ -1,0 +1,68 @@
+@import "../../scssVariables.scss";
+
+.searchResultRecipes_wrapper {
+  padding: 30px 0px;
+  min-height: calc(100vh - 135px);
+  margin: $app-margin;
+
+  .searchResult_wrapper {
+    display: flex;
+    .searchResult_left {
+      min-height: calc(100vh - 185px);
+      flex: 0.7;
+      border-right: 1px solid rgba(242, 242, 242, 1);
+      h3 {
+        font-size: 25px;
+      }
+
+      .searched_recipes_wrapper {
+        padding: 10px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+      }
+    }
+    .searchResult_right {
+      padding: 20px;
+      flex: 0.3;
+      position: -webkit-sticky; /* for Safari */
+      position: sticky;
+      top: 130px;
+      align-self: flex-start; /* <-- this is the fix */
+
+      h3 {
+        font-size: 25px;
+      }
+      .food_types_wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+
+        p {
+          padding: 5px 10px;
+          border: 1px solid $hilight-color;
+          color: $hilight-color;
+          border-radius: 10px;
+          font-size: 15px;
+          font-weight: 500;
+          min-width: 80px;
+          text-align: center;
+          cursor: pointer;
+
+          &:hover {
+            background-color: $hilight-color;
+            color: $white-color;
+            border-color: none;
+            transform: translateY(-15%);
+            transition: 0.3s ease;
+          }
+
+          &.active {
+            background-color: $hilight-color;
+            color: $white-color;
+          }
+        }
+      }
+    }
+  }
+}

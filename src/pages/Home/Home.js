@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./home.scss";
 import { FiSearch } from "react-icons/fi";
 import { BsArrowLeftCircle, BsArrowRightCircle } from "react-icons/bs";
-import NewestRecipe from "../../components/NewestRecipe/NewestRecipe";
+
 import RecipeWithSavedIcon from "../../components/RecipeWithSavedIcon/RecipeWithSavedIcon";
 import {
   collection,
@@ -10,9 +10,10 @@ import {
   orderBy,
   query,
   limit,
+  where,
 } from "firebase/firestore";
 import { db } from "../../Firebase";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { finishLoading, startLoading } from "../../redux/loadingSlice";
 import Loading from "../../components/Loading/Loading";
@@ -21,52 +22,7 @@ function Home() {
   const { loading } = useSelector((state) => state.loading);
   const [allRecipes, setAllRecipes] = useState([]);
   const [newestRecipes, setNewestRecipes] = useState([]);
-  const [recipeTypes, setRecipesTypes] = useState([
-    {
-      recipeTypeId: 1,
-      recipeType: "Chinese",
-    },
-    {
-      recipeTypeId: 2,
-      recipeType: "Myanmar",
-    },
-    {
-      recipeTypeId: 3,
-      recipeType: "India",
-    },
-    {
-      recipeTypeId: 4,
-      recipeType: "Mexico",
-    },
-    {
-      recipeTypeId: 5,
-      recipeType: "Spanish",
-    },
-    {
-      recipeTypeId: 6,
-      recipeType: "French",
-    },
-    {
-      recipeTypeId: 7,
-      recipeType: "Italy",
-    },
-    {
-      recipeTypeId: 8,
-      recipeType: "Korea",
-    },
-    {
-      recipeTypeId: 9,
-      recipeType: "Somewhere",
-    },
-    {
-      recipeTypeId: 10,
-      recipeType: "Somewhere",
-    },
-    {
-      recipeTypeId: 11,
-      recipeType: "Somewhere",
-    },
-  ]);
+  const [allRecipeTypes, setAllRecipeTypes] = useState([]);
   const dispatch = useDispatch();
   const [toMovePercentage, setToMovePercentage] = useState(0);
   const [currentStartPosition, setCurrentStartPosition] = useState(0);
@@ -104,21 +60,11 @@ function Home() {
       window.removeEventListener("resize", hanldeCarouselItemOnWindowWidth);
   }, []);
 
-  useEffect(() => {
-    let arrayLength = recipeTypes.length;
-    let caraouselCurrentShowLengthOnEndOfArray =
-      currentStartPosition + currentShownCarouselItems;
-    let toMoveResult = caraouselCurrentShowLengthOnEndOfArray - arrayLength;
-    if (toMoveResult > 0) {
-      setToMovePercentage((prev) => prev - 100);
-      setCurrentStartPosition((prev) => prev - 1);
-    }
-  }, [currentShownCarouselItems]);
-
   function handleCarouselRightBtn(val) {
     if (val == 4) {
       if (
-        recipeTypes.slice(currentStartPosition, recipeTypes.length).length -
+        allRecipeTypes.slice(currentStartPosition, allRecipeTypes.length)
+          .length -
           4 >=
         4
       ) {
@@ -126,7 +72,8 @@ function Home() {
         setCurrentStartPosition((prev) => prev + 4);
       }
       if (
-        recipeTypes.slice(currentStartPosition, recipeTypes.length).length -
+        allRecipeTypes.slice(currentStartPosition, allRecipeTypes.length)
+          .length -
           4 ==
         3
       ) {
@@ -134,7 +81,8 @@ function Home() {
         setCurrentStartPosition((prev) => prev + 3);
       }
       if (
-        recipeTypes.slice(currentStartPosition, recipeTypes.length).length -
+        allRecipeTypes.slice(currentStartPosition, allRecipeTypes.length)
+          .length -
           4 ==
         2
       ) {
@@ -142,7 +90,8 @@ function Home() {
         setCurrentStartPosition((prev) => prev + 2);
       }
       if (
-        recipeTypes.slice(currentStartPosition, recipeTypes.length).length -
+        allRecipeTypes.slice(currentStartPosition, allRecipeTypes.length)
+          .length -
           4 ==
         1
       ) {
@@ -152,7 +101,8 @@ function Home() {
     }
     if (val == 3) {
       if (
-        recipeTypes.slice(currentStartPosition, recipeTypes.length).length -
+        allRecipeTypes.slice(currentStartPosition, allRecipeTypes.length)
+          .length -
           3 >=
         3
       ) {
@@ -160,7 +110,8 @@ function Home() {
         setCurrentStartPosition((prev) => prev + 3);
       }
       if (
-        recipeTypes.slice(currentStartPosition, recipeTypes.length).length -
+        allRecipeTypes.slice(currentStartPosition, allRecipeTypes.length)
+          .length -
           3 ==
         2
       ) {
@@ -168,7 +119,8 @@ function Home() {
         setCurrentStartPosition((prev) => prev + 2);
       }
       if (
-        recipeTypes.slice(currentStartPosition, recipeTypes.length).length -
+        allRecipeTypes.slice(currentStartPosition, allRecipeTypes.length)
+          .length -
           3 ==
         1
       ) {
@@ -178,7 +130,8 @@ function Home() {
     }
     if (val == 2) {
       if (
-        recipeTypes.slice(currentStartPosition, recipeTypes.length).length -
+        allRecipeTypes.slice(currentStartPosition, allRecipeTypes.length)
+          .length -
           2 >=
         2
       ) {
@@ -186,7 +139,8 @@ function Home() {
         setCurrentStartPosition((prev) => prev + 2);
       }
       if (
-        recipeTypes.slice(currentStartPosition, recipeTypes.length).length -
+        allRecipeTypes.slice(currentStartPosition, allRecipeTypes.length)
+          .length -
           2 ==
         1
       ) {
@@ -198,43 +152,43 @@ function Home() {
 
   function handleCarouselLeftBtn(val) {
     if (val == 4) {
-      if (recipeTypes.slice(0, currentStartPosition).length >= 4) {
+      if (allRecipeTypes.slice(0, currentStartPosition).length >= 4) {
         setToMovePercentage((prev) => prev - 400);
         setCurrentStartPosition((prev) => prev - 4);
       }
-      if (recipeTypes.slice(0, currentStartPosition).length == 3) {
+      if (allRecipeTypes.slice(0, currentStartPosition).length == 3) {
         setToMovePercentage((prev) => prev - 300);
         setCurrentStartPosition((prev) => prev - 3);
       }
-      if (recipeTypes.slice(0, currentStartPosition).length == 2) {
+      if (allRecipeTypes.slice(0, currentStartPosition).length == 2) {
         setToMovePercentage((prev) => prev - 200);
         setCurrentStartPosition((prev) => prev - 2);
       }
-      if (recipeTypes.slice(0, currentStartPosition).length == 1) {
+      if (allRecipeTypes.slice(0, currentStartPosition).length == 1) {
         setToMovePercentage((prev) => prev - 100);
         setCurrentStartPosition((prev) => prev - 1);
       }
     }
     if (val == 3) {
-      if (recipeTypes.slice(0, currentStartPosition).length >= 3) {
+      if (allRecipeTypes.slice(0, currentStartPosition).length >= 3) {
         setToMovePercentage((prev) => prev - 300);
         setCurrentStartPosition((prev) => prev - 3);
       }
-      if (recipeTypes.slice(0, currentStartPosition).length == 2) {
+      if (allRecipeTypes.slice(0, currentStartPosition).length == 2) {
         setToMovePercentage((prev) => prev - 200);
         setCurrentStartPosition((prev) => prev - 2);
       }
-      if (recipeTypes.slice(0, currentStartPosition).length == 1) {
+      if (allRecipeTypes.slice(0, currentStartPosition).length == 1) {
         setToMovePercentage((prev) => prev - 100);
         setCurrentStartPosition((prev) => prev - 1);
       }
     }
     if (val == 2) {
-      if (recipeTypes.slice(0, currentStartPosition).length >= 2) {
+      if (allRecipeTypes.slice(0, currentStartPosition).length >= 2) {
         setToMovePercentage((prev) => prev - 200);
         setCurrentStartPosition((prev) => prev - 2);
       }
-      if (recipeTypes.slice(0, currentStartPosition).length == 1) {
+      if (allRecipeTypes.slice(0, currentStartPosition).length == 1) {
         setToMovePercentage((prev) => prev - 100);
         setCurrentStartPosition((prev) => prev - 1);
       }
@@ -268,6 +222,29 @@ function Home() {
     fetchNewestRecieps();
     fetchAllRecipes();
   }, []);
+
+  useEffect(() => {
+    async function fetchAllRecipeTypes() {
+      const recipeTypesCollectionRef = collection(db, "recipeTypes");
+      onSnapshot(recipeTypesCollectionRef, (snapshot) => {
+        const result = snapshot.docs.map((doc) => ({
+          ...doc.data(),
+          recipeTypeDocId: doc.id,
+        }));
+        setAllRecipeTypes(result);
+        let arrayLength = result.length;
+
+        let caraouselCurrentShowLengthOnEndOfArray =
+          currentStartPosition + currentShownCarouselItems;
+        let toMoveResult = caraouselCurrentShowLengthOnEndOfArray - arrayLength;
+        if (toMoveResult > 0) {
+          setToMovePercentage((prev) => prev - 100);
+          setCurrentStartPosition((prev) => prev - 1);
+        }
+      });
+    }
+    fetchAllRecipeTypes();
+  }, [currentShownCarouselItems]);
 
   function handleSearchRecipe(e) {
     const userInputValue = e.target.value;
@@ -314,14 +291,17 @@ function Home() {
                   }
                 />
                 <div className="recipeTypes_wrapper">
-                  {recipeTypes.map((recipe) => (
-                    <p
-                      style={{ transform: `translate(-${toMovePercentage}%)` }}
+                  {allRecipeTypes.map((recipeType) => (
+                    <Link
                       className="recipesType"
-                      key={recipe.recipeTypeId}
+                      to={`/recipes/searchRecipeType=${recipeType.recipeTypeName}`}
+                      key={recipeType.recipeTypeDocId}
+                      style={{
+                        transform: `translate(-${toMovePercentage}%)`,
+                      }}
                     >
-                      {recipe.recipeType}
-                    </p>
+                      <p>{recipeType.recipeTypeName}</p>
+                    </Link>
                   ))}
                 </div>
               </div>

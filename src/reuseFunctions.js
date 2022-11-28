@@ -27,7 +27,6 @@ export async function signInHandle(e, dispatch) {
   const foundUser = allUsersDocs.docs
     .map((user) => ({ ...user.data(), docId: user.id }))
     .find((usr) => usr.userId === signInResponse.user?.uid);
-  console.log("foundUser", foundUser);
 
   if (foundUser !== undefined) {
     console.log("userphotoUrl", signInResponse.user.photoURL);
@@ -41,12 +40,10 @@ export async function signInHandle(e, dispatch) {
       userPhoto: signInResponse.user.photoURL,
       username: signInResponse.user.displayName,
     });
-
     const reduxUser = {
       ...updatedNameAndPhotoLinkUser,
       userDocumentId: foundUser.docId,
     };
-
     dispatch(reduxLogin(reduxUser));
     return;
   }
