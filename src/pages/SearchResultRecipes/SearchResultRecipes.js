@@ -43,7 +43,7 @@ function SearchResultRecipes() {
       dispatch(finishLoading());
     }
     getSearchResult();
-  }, []);
+  }, [params.searchInput]);
 
   console.log("searchedRecipes", searchedRecipes);
   return (

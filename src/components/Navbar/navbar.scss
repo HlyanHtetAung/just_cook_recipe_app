@@ -12,7 +12,69 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    position: relative;
 
+    &.hide {
+      .navbar_header,
+      .navbar_right_wrapper {
+        display: none;
+      }
+    }
+    .searchBar_wrapper {
+      position: absolute;
+      top: 50%;
+      height: 50px;
+      transform: translateY(-50%);
+      display: flex;
+      align-items: center;
+      width: 100%;
+      z-index: 100000;
+      gap: 10px;
+      background-color: #f0f9f9;
+      opacity: 0;
+      pointer-events: none;
+
+      &.active {
+        opacity: 1;
+        pointer-events: visible;
+        transition: 400ms ease;
+      }
+      .seachBar_input_wrapper {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        height: 100%;
+        background-color: $white-color;
+        padding: 10px;
+        border-radius: 10px;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+        input {
+          flex: 1;
+          height: 100%;
+          outline: none;
+          border: none;
+          padding: 0 10px;
+          font-size: 16px;
+          font-weight: 500;
+        }
+
+        .searchBar_searchIcon {
+          width: 30px;
+          height: 30px;
+        }
+      }
+
+      .searchBar_closeIcon {
+        width: 50px;
+        height: 50px;
+        cursor: pointer;
+        color: $hilight-color;
+        &:hover {
+          color: $hover-color;
+        }
+      }
+    }
     .navbar_header {
       font-family: "Spectral";
       font-size: 50px;
@@ -192,16 +254,21 @@
 @media screen and (max-width: 850px) {
   .navbar_outside_wrapper {
     .navbar_wrapper {
+      .navbar_header {
+        font-size: 40px;
+      }
       margin: $smallScreen_margin;
       flex-direction: row;
       justify-content: space-between;
+      .recipe_dropdown_wrapper {
+        display: none;
+      }
       .navbar_right_wrapper {
         .navbar_hamburgerIcon {
           display: block;
         }
         .nav_link,
-        .navbar_signUpBtn,
-        .navbar_searchIcon {
+        .navbar_signUpBtn {
           display: none;
         }
       }

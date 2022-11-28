@@ -5,7 +5,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { CgCloseR } from "react-icons/cg";
 import { IoIosLogOut, IoMdArrowDropdown } from "react-icons/io";
 import { CiDark } from "react-icons/ci";
-import { BsArrowDownShort } from "react-icons/bs";
+import { AiOutlineCloseCircle } from "react-icons/ai";
 
 import "./navbar.scss";
 import SmallScreenNavbar from "../SmallScreenNavbar/SmallScreenNavbar";
@@ -14,11 +14,14 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { reduxLogout } from "../../redux/userSlice";
 import { signInHandle } from "../../reuseFunctions";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Navbar({ setActiveHamburgerMenu, acitveHamburgerMenu }) {
   const { username, userPhoto, userRole } = useSelector((state) => state.user);
   const [openLogoutWrapper, setOpenLogoutWrapper] = useState(false);
+  const [openNavSearchBar, setOpenNavSearchBar] = useState(false);
+  const [userSearchInput, setUserSearchInput] = useState("");
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const logoutWrapperRef = useRef();
   const [activeLink, setActiveLink] = useState("");
@@ -45,6 +48,17 @@ function Navbar({ setActiveHamburgerMenu, acitveHamburgerMenu }) {
       window.removeEventListener("click", handleClickOutsideLogoutWrapper);
   }, []);
 
+  function handleSearchRecipe(e) {
+    const userInputValue = e.target.value;
+    setUserSearchInput(userInputValue);
+  }
+
+  function handleKeyPress(e) {
+    if (e.key === "Enter") {
+      navigate(`/recipes/searchResult=${userSearchInput}`);
+    }
+  }
+
   return (
     <div className="navbar_outside_wrapper">
       <SmallScreenNavbar
@@ -52,7 +66,32 @@ function Navbar({ setActiveHamburgerMenu, acitveHamburgerMenu }) {
         activeLink={activeLink}
         setActiveLink={setActiveLink}
       />
-      <div className="navbar_wrapper">
+      <div
+        className={openNavSearchBar ? "navbar_wrapper hide" : "navbar_wrapper"}
+      >
+        <div
+          className={
+            openNavSearchBar ? "searchBar_wrapper active" : "searchBar_wrapper"
+          }
+        >
+          <div className="seachBar_input_wrapper">
+            <FiSearch className="searchBar_searchIcon" />
+            <input
+              type="text"
+              placeholder="Search recipe..."
+              onChange={(e) => handleSearchRecipe(e)}
+              onKeyPress={(e) => handleKeyPress(e)}
+              value={userSearchInput}
+            />
+          </div>
+          <AiOutlineCloseCircle
+            className="searchBar_closeIcon"
+            onClick={() => {
+              setOpenNavSearchBar(false);
+              setUserSearchInput("");
+            }}
+          />
+        </div>
         <h1 className="navbar_header">JustCook</h1>
         <div className="navbar_right_wrapper">
           <Navlink
@@ -132,7 +171,10 @@ function Navbar({ setActiveHamburgerMenu, acitveHamburgerMenu }) {
               Login with Google
             </button>
           )}
-          <FiSearch className="navbar_searchIcon" />
+          <FiSearch
+            className="navbar_searchIcon"
+            onClick={() => setOpenNavSearchBar(true)}
+          />
           {acitveHamburgerMenu ? (
             <CgCloseR
               className="navbar_hamburgerIcon"
