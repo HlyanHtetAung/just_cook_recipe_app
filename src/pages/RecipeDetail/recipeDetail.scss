@@ -73,7 +73,6 @@
           p {
             color: $letter_color;
             font-size: 18px;
-            text-align: justify;
           }
         }
       }
@@ -98,7 +97,7 @@
           p {
             color: $letter_color;
             font-size: 17px;
-            text-align: justify;
+
             line-height: 30px;
           }
         }
@@ -180,7 +179,7 @@
           }
           button {
             padding: 5px 10px;
-            width: 130px;
+            width: 100%;
             font-size: 15px;
           }
         }

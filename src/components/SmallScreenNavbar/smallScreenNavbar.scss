@@ -67,3 +67,9 @@
     }
   }
 }
+
+@media screen and (max-width: 500px) {
+  .smallScreenNavbar_wrapper {
+    top: 80px;
+  }
+}

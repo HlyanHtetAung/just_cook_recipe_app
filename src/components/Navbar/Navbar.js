@@ -76,7 +76,12 @@ function Navbar({ setActiveHamburgerMenu, acitveHamburgerMenu }) {
           }
         >
           <div className="seachBar_input_wrapper">
-            <FiSearch className="searchBar_searchIcon" />
+            <FiSearch
+              className="searchBar_searchIcon"
+              onClick={() =>
+                navigate(`/recipes/searchResult=${userSearchInput}`)
+              }
+            />
             <input
               type="text"
               placeholder="Search recipe..."
@@ -93,7 +98,9 @@ function Navbar({ setActiveHamburgerMenu, acitveHamburgerMenu }) {
             }}
           />
         </div>
-        <h1 className="navbar_header">JustCook</h1>
+        <Link to="/" onClick={() => setActiveLink("/")}>
+          <h1 className="navbar_header">JustCook</h1>
+        </Link>
         <div className="navbar_right_wrapper">
           <Navlink
             linkName="Home"

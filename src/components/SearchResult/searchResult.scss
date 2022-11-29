@@ -82,11 +82,7 @@
       flex-direction: column;
       .hide_types_tag {
         display: block;
-        flex: 0.3;
-        position: -webkit-sticky; /* for Safari */
-        position: sticky;
-        top: 130px;
-        align-self: flex-start; /* <-- this is the fix */
+
         margin-bottom: 10px;
         h3 {
           font-size: 25px;

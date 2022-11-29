@@ -1,18 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Comments from "../../components/Comments/Comments";
 import ReplyCommentInputBox from "../../components/ReplyCommentInputBox/ReplyCommentInputBox";
 import ScrollToTopOnMount from "../../ScrollToTopOnMount";
-import {
-  doc,
-  updateDoc,
-  Timestamp,
-  onSnapshot,
-  query,
-  collection,
-  getDocs,
-  startAt,
-} from "firebase/firestore";
+import Loading from "../../components/Loading/Loading";
+import { startLoading, finishLoading } from "../../redux/loadingSlice";
+import { doc, updateDoc, Timestamp, onSnapshot } from "firebase/firestore";
 import { db } from "../../Firebase";
 import "./recipeDetail.scss";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,7 +15,7 @@ import { savedRecipeHandle, signInHandle } from "../../reuseFunctions";
 function RecipeDetail() {
   const params = useParams();
   const dispatch = useDispatch();
-
+  const { loading } = useSelector((state) => state.loading);
   const { username, userPhoto, userId, userDocumentId, savedRecipes } =
     useSelector((state) => state.user);
 
@@ -42,10 +35,12 @@ function RecipeDetail() {
 
   useEffect(() => {
     async function fetchRecipeDetail() {
+      dispatch(startLoading());
       const docRef = doc(db, "recipes", params.recipeId);
-      onSnapshot(docRef, (snapshot) =>
-        setRecipeDetail({ ...snapshot.data(), recipeDocId: snapshot.id })
-      );
+      onSnapshot(docRef, (snapshot) => {
+        setRecipeDetail({ ...snapshot.data(), recipeDocId: snapshot.id });
+        dispatch(finishLoading());
+      });
     }
     fetchRecipeDetail();
   }, []);
@@ -73,80 +68,92 @@ function RecipeDetail() {
   }
 
   return (
-    <div className="recipe_detail_wrapper">
-      <ScrollToTopOnMount />
-      {/* <Link to={`/editRecipe/${params.recipeId}`}>
-        <button>Edit Recipe</button>
-      </Link> */}
-      <div className="recipe_info_wrapper">
-        <div className="recipe_header_wrapper">
-          <div className="recipe_photo_wrapper">
-            <img src={recipeDetail?.recipePhotoLink} />
+    <>
+      {loading ? (
+        <Loading />
+      ) : (
+        <div className="recipe_detail_wrapper">
+          <ScrollToTopOnMount />
+          {/* <Link to={`/editRecipe/${params.recipeId}`}>
+      <button>Edit Recipe</button>
+    </Link> */}
+          <div className="recipe_info_wrapper">
+            <div className="recipe_header_wrapper">
+              <div className="recipe_photo_wrapper">
+                <img src={recipeDetail?.recipePhotoLink} />
+              </div>
+              <div className="recipe_headerInfo_wrapper">
+                <h2>{recipeDetail?.recipeName}</h2>
+                <p>By {recipeDetail?.createdBy}</p>
+                <button
+                  style={
+                    userDocumentId && onSaveList
+                      ? { opacity: "0.5" }
+                      : { opacity: "1" }
+                  }
+                  disabled={userDocumentId && onSaveList}
+                  onClick={(e) =>
+                    username
+                      ? savedRecipeHandle(
+                          recipeDetail,
+                          dispatch,
+                          userDocumentId
+                        )
+                      : signInHandle(e, dispatch)
+                  }
+                >
+                  {userDocumentId && onSaveList
+                    ? "Already Saved"
+                    : "Save Recipe"}
+                </button>
+              </div>
+            </div>
+            <div className="recipe_ingredients_wrapper">
+              <h3>Ingredients</h3>
+              <ul>
+                {recipeDetail?.recipeIngredients?.map((ingredient, index) => (
+                  <li key={index}>
+                    <p>{ingredient}</p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="divider"></div>
+            <div className="recipe_method_wrapper">
+              <h3>Method</h3>
+              <ol>
+                {recipeDetail?.recipeMethods?.map((method, index) => (
+                  <li key={index}>
+                    <h4>{method.methodHeader}</h4>
+                    <p>{method.methodLetter}</p>
+                  </li>
+                ))}
+              </ol>
+            </div>
+            <div className="divider"></div>
+            <div className="comments_wrapper">
+              <h3>Comments</h3>
+              <ReplyCommentInputBox
+                placeholderValue="Enter your opinion about that recipe"
+                btnName="Upload"
+                btnFunction={handleGiveOriginalComment}
+                commentStarterInputBox
+              />
+              {recipeDetail?.comments?.map((comment, index) => (
+                <Comments
+                  comment={comment}
+                  key={index}
+                  orignialCommentId={comment.orignialCommentId}
+                  recipeDetail={recipeDetail}
+                  docId={params.recipeId}
+                  commentOwnerId={comment.userId}
+                />
+              ))}
+            </div>
           </div>
-          <div className="recipe_headerInfo_wrapper">
-            <h2>{recipeDetail?.recipeName}</h2>
-            <p>By {recipeDetail?.createdBy}</p>
-            <button
-              style={
-                userDocumentId && onSaveList
-                  ? { opacity: "0.5" }
-                  : { opacity: "1" }
-              }
-              disabled={userDocumentId && onSaveList}
-              onClick={(e) =>
-                username
-                  ? savedRecipeHandle(recipeDetail, dispatch, userDocumentId)
-                  : signInHandle(e, dispatch)
-              }
-            >
-              {userDocumentId && onSaveList ? "Already Saved" : "Save Recipe"}
-            </button>
-          </div>
         </div>
-        <div className="recipe_ingredients_wrapper">
-          <h3>Ingredients</h3>
-          <ul>
-            {recipeDetail?.recipeIngredients?.map((ingredient, index) => (
-              <li key={index}>
-                <p>{ingredient}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="divider"></div>
-        <div className="recipe_method_wrapper">
-          <h3>Method</h3>
-          <ol>
-            {recipeDetail?.recipeMethods?.map((method, index) => (
-              <li key={index}>
-                <h4>{method.methodHeader}</h4>
-                <p>{method.methodLetter}</p>
-              </li>
-            ))}
-          </ol>
-        </div>
-        <div className="divider"></div>
-        <div className="comments_wrapper">
-          <h3>Comments</h3>
-          <ReplyCommentInputBox
-            placeholderValue="Enter your opinion about that recipe"
-            btnName="Upload"
-            btnFunction={handleGiveOriginalComment}
-            commentStarterInputBox
-          />
-          {recipeDetail?.comments?.map((comment, index) => (
-            <Comments
-              comment={comment}
-              key={index}
-              orignialCommentId={comment.orignialCommentId}
-              recipeDetail={recipeDetail}
-              docId={params.recipeId}
-              commentOwnerId={comment.userId}
-            />
-          ))}
-        </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 }
 

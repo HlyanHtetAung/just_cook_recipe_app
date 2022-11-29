@@ -57,7 +57,7 @@ function App() {
                 <AiOutlineInstagram className="footer_social_icon" />
                 <SlSocialTwitter className="footer_social_icon" />
                 <MdFacebook className="footer_social_icon" />
-                <MdFacebook className="footer_social_icon" />
+                {/* <MdFacebook className="footer_social_icon" /> */}
               </div>
               <p>@{new Date().getFullYear()} JustCook. All Rights Reserved.</p>
             </div>
