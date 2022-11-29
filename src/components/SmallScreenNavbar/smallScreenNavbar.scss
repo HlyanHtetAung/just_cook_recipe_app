@@ -19,8 +19,44 @@
     margin: 20px 50px;
     display: flex;
     flex-direction: column;
-
     gap: 20px;
+
+    .recipe_small_screen_navlink_wrapper {
+      .recipe_navlink_wrapper {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+        h3 {
+          color: $black-color;
+          text-decoration: none;
+          border-bottom: 5px solid transparent;
+          font-size: 18px;
+          font-weight: 500;
+        }
+        .recipe_navlink_icon {
+          font-size: 20px;
+        }
+      }
+
+      .small_screen_dropdown {
+        display: none;
+        p {
+          padding: 6px 10px;
+          cursor: pointer;
+          font-size: 16px;
+          font-weight: 400;
+          color: $letter-color;
+          &:hover {
+            background-color: whitesmoke;
+            color: $hilight-color;
+          }
+        }
+        &.active {
+          display: block;
+        }
+      }
+    }
     .small_screen_navbar_signUp_btn {
       padding: 10px 50px;
       border-radius: 29px;

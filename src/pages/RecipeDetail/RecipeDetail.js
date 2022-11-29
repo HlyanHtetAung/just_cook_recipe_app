@@ -22,10 +22,23 @@ import { savedRecipeHandle, signInHandle } from "../../reuseFunctions";
 function RecipeDetail() {
   const params = useParams();
   const dispatch = useDispatch();
-  const { username, userPhoto, userId, userDocumentId } = useSelector(
-    (state) => state.user
-  );
+
+  const { username, userPhoto, userId, userDocumentId, savedRecipes } =
+    useSelector((state) => state.user);
+
   const [recipeDetail, setRecipeDetail] = useState({});
+  const [onSaveList, setOnSaveList] = useState(false);
+
+  useEffect(() => {
+    const onListAry = savedRecipes.filter(
+      (savRecipe) => savRecipe.recipeDocId == params.recipeId
+    );
+    if (onListAry.length > 0) {
+      setOnSaveList(true);
+    } else {
+      setOnSaveList(false);
+    }
+  }, [username, savedRecipes, userDocumentId]);
 
   useEffect(() => {
     async function fetchRecipeDetail() {
@@ -62,9 +75,9 @@ function RecipeDetail() {
   return (
     <div className="recipe_detail_wrapper">
       <ScrollToTopOnMount />
-      <Link to={`/editRecipe/${params.recipeId}`}>
+      {/* <Link to={`/editRecipe/${params.recipeId}`}>
         <button>Edit Recipe</button>
-      </Link>
+      </Link> */}
       <div className="recipe_info_wrapper">
         <div className="recipe_header_wrapper">
           <div className="recipe_photo_wrapper">
@@ -74,13 +87,19 @@ function RecipeDetail() {
             <h2>{recipeDetail?.recipeName}</h2>
             <p>By {recipeDetail?.createdBy}</p>
             <button
+              style={
+                userDocumentId && onSaveList
+                  ? { opacity: "0.5" }
+                  : { opacity: "1" }
+              }
+              disabled={userDocumentId && onSaveList}
               onClick={(e) =>
                 username
                   ? savedRecipeHandle(recipeDetail, dispatch, userDocumentId)
                   : signInHandle(e, dispatch)
               }
             >
-              Save Recipe
+              {userDocumentId && onSaveList ? "Already Saved" : "Save Recipe"}
             </button>
           </div>
         </div>

@@ -25,6 +25,27 @@ function SearchResult({ foundRecipes, selectedRecipeType }) {
   return (
     <div className="searchResultRecipes_wrapper">
       <div className="searchResult_wrapper">
+        <div className="hide_types_tag">
+          <h3>Food Types</h3>
+          <div className="food_types_wrapper">
+            {allRecipeTypes.map((recipeType) => (
+              <Link
+                key={recipeType.recipeTypeName}
+                to={`/recipes/searchRecipeType=${recipeType.recipeTypeName}`}
+              >
+                <p
+                  className={
+                    recipeType.recipeTypeName == selectedRecipeType
+                      ? "active"
+                      : ""
+                  }
+                >
+                  {recipeType.recipeTypeName}
+                </p>
+              </Link>
+            ))}
+          </div>
+        </div>
         <div className="searchResult_left">
           <h3>
             Found Recipes ({foundRecipes?.length ? foundRecipes?.length : "0"})

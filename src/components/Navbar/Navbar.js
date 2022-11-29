@@ -65,6 +65,7 @@ function Navbar({ setActiveHamburgerMenu, acitveHamburgerMenu }) {
         acitveHamburgerMenu={acitveHamburgerMenu}
         activeLink={activeLink}
         setActiveLink={setActiveLink}
+        setActiveHamburgerMenu={setActiveHamburgerMenu}
       />
       <div
         className={openNavSearchBar ? "navbar_wrapper hide" : "navbar_wrapper"}
@@ -153,10 +154,10 @@ function Navbar({ setActiveHamburgerMenu, acitveHamburgerMenu }) {
                     <p>{userRole}</p>
                   </div>
                 </div>
-                <p className="link_wrapper">
+                {/* <p className="link_wrapper">
                   <CiDark className="link_wrapper_icon" />
                   Change Dark Theme
-                </p>
+                </p> */}
                 <p className="link_wrapper" onClick={logoutHandle}>
                   <IoIosLogOut className="link_wrapper_icon" />
                   Sign Out

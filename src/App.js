@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./app.scss";
-import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
 import AboutUs from "./pages/AboutUs/AboutUs";
 import Home from "./pages/Home/Home";
@@ -16,11 +16,11 @@ import AddNewRecipeType from "./pages/AddNewRecipeType/AddNewRecipeType";
 import ViewAllRecipes from "./pages/ViewAllRecipes/ViewAllRecipes";
 import { useSelector } from "react-redux";
 import SearchResultByType from "./pages/searchResultByType/SearchResultByType";
+
 function App() {
   // To contorl Navbar on small screen
   const [acitveHamburgerMenu, setActiveHamburgerMenu] = useState(false);
-  const user = useSelector((state) => state.user);
-  console.log("User", user);
+
   return (
     <BrowserRouter>
       <div className="app">
@@ -61,7 +61,7 @@ function App() {
               </div>
               <p>@{new Date().getFullYear()} JustCook. All Rights Reserved.</p>
             </div>
-            <div className="app_footer_link_wrapper">
+            {/* <div className="app_footer_link_wrapper">
               <p>About Us</p>
               <p>Contact Us</p>
               <p>Advertisting</p>
@@ -77,7 +77,7 @@ function App() {
               <p>About Us</p>
               <p>Contact Us</p>
               <p>Advertisting</p>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

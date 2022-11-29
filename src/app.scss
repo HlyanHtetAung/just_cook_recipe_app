@@ -11,12 +11,15 @@
   .app_footer {
     margin: $app-margin;
     display: flex;
-    justify-content: space-between;
+
     padding: 40px 0px;
     .app_footer_left_side_wrapper {
       display: flex;
       flex-direction: column;
       gap: 10px;
+      justify-content: center;
+      align-items: center;
+      flex: 1;
       h1 {
         font-size: 42px;
         font-family: "Spectral";
@@ -27,6 +30,10 @@
         .footer_social_icon {
           width: 40px;
           height: 40px;
+          cursor: pointer;
+          &:hover {
+            color: $hover-color;
+          }
         }
       }
       p {

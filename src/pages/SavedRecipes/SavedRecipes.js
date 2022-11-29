@@ -5,6 +5,7 @@ import "./savedRecipes.scss";
 import { db } from "../../Firebase";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { useSelector } from "react-redux";
+import ScrollToTopOnMount from "../../ScrollToTopOnMount";
 
 function SavedRecipes() {
   const { userId, username } = useSelector((state) => state.user);
@@ -25,6 +26,7 @@ function SavedRecipes() {
 
   return (
     <div className="saved_recipes_outside_wrapper">
+      <ScrollToTopOnMount />
       <div className="saved_recipes_inside_wrapper">
         <h3>
           {username
