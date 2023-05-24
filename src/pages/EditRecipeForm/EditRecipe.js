@@ -1,15 +1,15 @@
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import {
   deleteObject,
   getDownloadURL,
   ref,
   uploadBytesResumable,
-} from "firebase/storage";
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { v4 } from "uuid";
-import RecipeForm from "../../components/RecipeForm/RecipeForm";
-import { db, storage } from "../../Firebase";
+} from 'firebase/storage';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { v4 } from 'uuid';
+import RecipeForm from '../../components/RecipeForm/RecipeForm';
+import { db, storage } from '../../Firebase';
 
 function EditRecipe() {
   const params = useParams();
@@ -22,21 +22,21 @@ function EditRecipe() {
       recipeIngredients,
       recipeMethods,
     } = recipeDetail;
-    const recipceDocRef = doc(db, "recipes", params.recipeDocId);
+    const recipceDocRef = doc(db, 'recipes', params.recipeDocId);
     const file = imageFile;
     if (file) {
       const toDelteImageRef = ref(storage, `recipesImages/${toDelteImageName}`);
       await deleteObject(toDelteImageRef);
       const imageName = imageFile.name + v4();
-      const sotragePath = "recipesImages/" + imageName;
+      const sotragePath = 'recipesImages/' + imageName;
       const storageRef = ref(storage, sotragePath);
       const uploadTask = uploadBytesResumable(storageRef, file);
       uploadTask.on(
-        "state_changed",
+        'state_changed',
         (snapshot) => {
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log("Edit is " + progress + "% done");
+          console.log('Edit is ' + progress + '% done');
         },
         (error) => {
           console.log(error);
@@ -56,10 +56,10 @@ function EditRecipe() {
       );
       return;
     }
-    console.log("recipeName", recipeName);
-    console.log("reciepType", recipeType);
-    console.log("recipeIngredients", recipeIngredients);
-    console.log("recipeMethods", recipeMethods);
+    console.log('recipeName', recipeName);
+    console.log('reciepType', recipeType);
+    console.log('recipeIngredients', recipeIngredients);
+    console.log('recipeMethods', recipeMethods);
     await updateDoc(recipceDocRef, {
       recipeName,
       recipeType,

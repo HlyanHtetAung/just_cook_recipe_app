@@ -1,30 +1,36 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
-import Comments from "../../components/Comments/Comments";
-import ReplyCommentInputBox from "../../components/ReplyCommentInputBox/ReplyCommentInputBox";
-import ScrollToTopOnMount from "../../ScrollToTopOnMount";
-import Loading from "../../components/Loading/Loading";
-import { startLoading, finishLoading } from "../../redux/loadingSlice";
-import { doc, updateDoc, Timestamp, onSnapshot } from "firebase/firestore";
-import { db } from "../../Firebase";
-import "./recipeDetail.scss";
-import { useDispatch, useSelector } from "react-redux";
-import { v4 } from "uuid";
-import { savedRecipeHandle, signInHandle } from "../../reuseFunctions";
+import React, { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import Comments from '../../components/Comments/Comments';
+import ReplyCommentInputBox from '../../components/ReplyCommentInputBox/ReplyCommentInputBox';
+import ScrollToTopOnMount from '../../ScrollToTopOnMount';
+import Loading from '../../components/Loading/Loading';
+import { startLoading, finishLoading } from '../../redux/loadingSlice';
+import { doc, updateDoc, Timestamp, onSnapshot } from 'firebase/firestore';
+import { db } from '../../Firebase';
+import './recipeDetail.scss';
+import { useDispatch, useSelector } from 'react-redux';
+import { v4 } from 'uuid';
+import { savedRecipeHandle, signInHandle } from '../../reuseFunctions';
 
 function RecipeDetail() {
   const params = useParams();
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.loading);
-  const { username, userPhoto, userId, userDocumentId, savedRecipes } =
-    useSelector((state) => state.user);
+  const {
+    username,
+    userPhoto,
+    userId,
+    userDocumentId,
+    savedRecipes,
+    userRole,
+  } = useSelector((state) => state.user);
 
   const [recipeDetail, setRecipeDetail] = useState({});
   const [onSaveList, setOnSaveList] = useState(false);
 
   useEffect(() => {
     const onListAry = savedRecipes.filter(
-      (savRecipe) => savRecipe.recipeDocId == params.recipeId
+      (savRecipe) => savRecipe.recipeDocId === params.recipeId
     );
     if (onListAry.length > 0) {
       setOnSaveList(true);
@@ -36,7 +42,7 @@ function RecipeDetail() {
   useEffect(() => {
     async function fetchRecipeDetail() {
       dispatch(startLoading());
-      const docRef = doc(db, "recipes", params.recipeId);
+      const docRef = doc(db, 'recipes', params.recipeId);
       onSnapshot(docRef, (snapshot) => {
         setRecipeDetail({ ...snapshot.data(), recipeDocId: snapshot.id });
         dispatch(finishLoading());
@@ -50,7 +56,7 @@ function RecipeDetail() {
     const month = Timestamp.now().toDate().getMonth() + 1;
     const year = Timestamp.now().toDate().getFullYear();
 
-    const docRef = doc(db, "recipes", params.recipeId);
+    const docRef = doc(db, 'recipes', params.recipeId);
     const previousComments = recipeDetail.comments;
     const updatedComments = [
       ...previousComments,
@@ -74,9 +80,6 @@ function RecipeDetail() {
       ) : (
         <div className="recipe_detail_wrapper">
           <ScrollToTopOnMount />
-          {/* <Link to={`/editRecipe/${params.recipeId}`}>
-      <button>Edit Recipe</button>
-    </Link> */}
           <div className="recipe_info_wrapper">
             <div className="recipe_header_wrapper">
               <div className="recipe_photo_wrapper">
@@ -88,8 +91,8 @@ function RecipeDetail() {
                 <button
                   style={
                     userDocumentId && onSaveList
-                      ? { opacity: "0.5" }
-                      : { opacity: "1" }
+                      ? { opacity: '0.5' }
+                      : { opacity: '1' }
                   }
                   disabled={userDocumentId && onSaveList}
                   onClick={(e) =>
@@ -103,9 +106,14 @@ function RecipeDetail() {
                   }
                 >
                   {userDocumentId && onSaveList
-                    ? "Already Saved"
-                    : "Save Recipe"}
+                    ? 'Already Saved'
+                    : 'Save Recipe'}
                 </button>
+                {userRole === 'Admin' && (
+                  <Link to={`/editRecipe/${params.recipeId}`}>
+                    <button>Edit Recipe</button>
+                  </Link>
+                )}
               </div>
             </div>
             <div className="recipe_ingredients_wrapper">

@@ -1,20 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
-import InputTextBox from "../../components/inputTextBox/InputTextBox";
-import { RiImageAddFill } from "react-icons/ri";
-import { FaRegEdit } from "react-icons/fa";
-import { AiOutlineDelete } from "react-icons/ai";
-import "./recipeForm.scss";
-import { useSelector } from "react-redux";
-import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
-import {
-  addDoc,
-  collection,
-  doc,
-  getDoc,
-  serverTimestamp,
-} from "firebase/firestore";
-import { db, storage } from "../../Firebase";
-import { v4 } from "uuid";
+import React, { useEffect, useRef, useState } from 'react';
+import InputTextBox from '../../components/inputTextBox/InputTextBox';
+import { RiImageAddFill } from 'react-icons/ri';
+import { FaRegEdit } from 'react-icons/fa';
+import { AiOutlineDelete } from 'react-icons/ai';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '../../Firebase';
+import './recipeForm.scss';
 
 function RecipeForm({
   formHeader,
@@ -23,24 +14,24 @@ function RecipeForm({
   toEditRecipeDocId,
 }) {
   const [recipeDetail, setRecipeDetail] = useState({
-    recipeName: "",
-    recipeType: "",
-    recipePhoto: "",
-    recipeIngredientText: "",
+    recipeName: '',
+    recipeType: '',
+    recipePhoto: '',
+    recipeIngredientText: '',
     recipeIngredients: [],
-    recipeMethodHeader: "",
-    recipeMethodLetter: "",
+    recipeMethodHeader: '',
+    recipeMethodLetter: '',
     recipeMethods: [],
   });
 
-  const [toDelteImageName, setToDeleteImageName] = useState("");
+  const [toDelteImageName, setToDeleteImageName] = useState('');
 
   const [toEditIngredintIndex, setToEditIngredintIndex] = useState(null);
   const [editIngredientBtnClicked, setEditIngredientBtnClicked] =
     useState(false);
   const [editMethodBtnClicked, setEditMethodBtnClicked] = useState(false);
   const [toEditMethodIndex, setToEditMethodIndex] = useState(null);
-  const [imageFile, setImageFileName] = useState("");
+  const [imageFile, setImageFileName] = useState('');
   const inputFileRef = useRef(null);
 
   function inputTextChangeHandle(e, propertyName) {
@@ -58,7 +49,7 @@ function RecipeForm({
     const updatedArrayValue = [...prevArrayValue, toAddValue];
     setRecipeDetail((prev) => ({
       ...prev,
-      recipeIngredientText: "",
+      recipeIngredientText: '',
       recipeIngredients: updatedArrayValue,
     }));
   }
@@ -88,7 +79,7 @@ function RecipeForm({
     );
     setRecipeDetail((prev) => ({
       ...prev,
-      recipeIngredientText: "",
+      recipeIngredientText: '',
       recipeIngredients: editedArrayvalue,
     }));
     setEditIngredientBtnClicked(false);
@@ -111,8 +102,8 @@ function RecipeForm({
     ];
     setRecipeDetail((prev) => ({
       ...prev,
-      recipeMethodHeader: "",
-      recipeMethodLetter: "",
+      recipeMethodHeader: '',
+      recipeMethodLetter: '',
       recipeMethods: updateMethodArray,
     }));
   }
@@ -150,8 +141,8 @@ function RecipeForm({
 
     setRecipeDetail((prev) => ({
       ...prev,
-      recipeMethodHeader: "",
-      recipeMethodLetter: "",
+      recipeMethodHeader: '',
+      recipeMethodLetter: '',
       recipeMethods: editedAryValue,
     }));
   }
@@ -163,14 +154,14 @@ function RecipeForm({
       ...prev,
       recipePhoto: selectedFileImage
         ? URL.createObjectURL(selectedFileImage)
-        : "",
+        : '',
     }));
   }
 
   useEffect(() => {
     async function fetchRecipeDetailToEdit() {
       if (toEditRecipeDocId) {
-        const docRef = doc(db, "recipes", toEditRecipeDocId);
+        const docRef = doc(db, 'recipes', toEditRecipeDocId);
         const result = (await getDoc(docRef)).data();
         const {
           recipeName,
@@ -184,10 +175,10 @@ function RecipeForm({
           recipeName: recipeName,
           recipeType: recipeType,
           recipePhoto: recipePhotoLink,
-          recipeIngredientText: "",
+          recipeIngredientText: '',
           recipeIngredients: recipeIngredients,
-          recipeMethodHeader: "",
-          recipeMethodLetter: "",
+          recipeMethodHeader: '',
+          recipeMethodLetter: '',
           recipeMethods: recipeMethods,
         });
         setToDeleteImageName(recipeImageName);
@@ -308,10 +299,11 @@ function RecipeForm({
         </div>
         <div className="input_recipe_iamge_wrapper">
           <img
+            alt=""
             src={
               recipeDetail.recipePhoto
                 ? recipeDetail.recipePhoto
-                : "https://thumbs.dreamstime.com/b/gallery-line-icon-isolated-white-background-outline-symbol-website-design-mobile-application-ui-pictogram-vector-190294765.jpg"
+                : 'https://thumbs.dreamstime.com/b/gallery-line-icon-isolated-white-background-outline-symbol-website-design-mobile-application-ui-pictogram-vector-190294765.jpg'
             }
           />
           <button onClick={() => inputFileRef.current.click()}>
@@ -322,7 +314,7 @@ function RecipeForm({
             type="file"
             onChange={fileChangeHandle}
             ref={inputFileRef}
-            style={{ display: "none" }}
+            style={{ display: 'none' }}
           />
         </div>
         <button

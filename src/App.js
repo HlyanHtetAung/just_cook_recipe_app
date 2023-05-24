@@ -1,21 +1,20 @@
-import { useState } from "react";
-import "./app.scss";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Navbar from "./components/Navbar/Navbar";
-import AboutUs from "./pages/AboutUs/AboutUs";
-import Home from "./pages/Home/Home";
-import SavedRecipes from "./pages/SavedRecipes/SavedRecipes";
-import { AiOutlineInstagram } from "react-icons/ai";
-import { SlSocialTwitter } from "react-icons/sl";
-import { MdFacebook } from "react-icons/md";
-import RecipeDetail from "./pages/RecipeDetail/RecipeDetail";
-import EditRecipe from "./pages/EditRecipeForm/EditRecipe";
-import AddNewRecipe from "./pages/AddNewRecipe/AddNewRecipe";
-import SearchResultRecipes from "./pages/SearchResultRecipes/SearchResultRecipes";
-import AddNewRecipeType from "./pages/AddNewRecipeType/AddNewRecipeType";
-import ViewAllRecipes from "./pages/ViewAllRecipes/ViewAllRecipes";
-import { useSelector } from "react-redux";
-import SearchResultByType from "./pages/searchResultByType/SearchResultByType";
+import { useState } from 'react';
+import './app.scss';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Navbar from './components/Navbar/Navbar';
+import AboutUs from './pages/AboutUs/AboutUs';
+import Home from './pages/Home/Home';
+import SavedRecipes from './pages/SavedRecipes/SavedRecipes';
+import { AiOutlineInstagram } from 'react-icons/ai';
+import { SlSocialTwitter } from 'react-icons/sl';
+import { MdFacebook } from 'react-icons/md';
+import RecipeDetail from './pages/RecipeDetail/RecipeDetail';
+import EditRecipe from './pages/EditRecipeForm/EditRecipe';
+import AddNewRecipe from './pages/AddNewRecipe/AddNewRecipe';
+import SearchResultRecipes from './pages/SearchResultRecipes/SearchResultRecipes';
+import AddNewRecipeType from './pages/AddNewRecipeType/AddNewRecipeType';
+import ViewAllRecipes from './pages/ViewAllRecipes/ViewAllRecipes';
+import SearchResultByType from './pages/searchResultByType/SearchResultByType';
 
 function App() {
   // To contorl Navbar on small screen
@@ -61,23 +60,6 @@ function App() {
               </div>
               <p>@{new Date().getFullYear()} JustCook. All Rights Reserved.</p>
             </div>
-            {/* <div className="app_footer_link_wrapper">
-              <p>About Us</p>
-              <p>Contact Us</p>
-              <p>Advertisting</p>
-              <p>Contact Us</p>
-              <p>Advertisting</p>
-            </div>
-            <div className="app_footer_link_wrapper">
-              <p>About Us</p>
-              <p>Contact Us</p>
-              <p>Advertisting</p>
-            </div>
-            <div className="app_footer_link_wrapper">
-              <p>About Us</p>
-              <p>Contact Us</p>
-              <p>Advertisting</p>
-            </div> */}
           </div>
         </div>
       </div>
