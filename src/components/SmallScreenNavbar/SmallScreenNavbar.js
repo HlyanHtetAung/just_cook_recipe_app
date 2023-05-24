@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, NavLink } from "react-router-dom";
-import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
-import Navlink from "../Navlink/Navlink";
-import "./smallScreenNavbar.scss";
-import { signInHandle } from "../../reuseFunctions";
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, NavLink } from 'react-router-dom';
+import { IoMdArrowDropdown, IoMdArrowDropup } from 'react-icons/io';
+import Navlink from '../Navlink/Navlink';
+import './smallScreenNavbar.scss';
+import { signInHandle } from '../../reuseFunctions';
 function SmallScreenNavbar({
   acitveHamburgerMenu,
   activeLink,
@@ -18,16 +18,16 @@ function SmallScreenNavbar({
     function windowResizeHandle() {
       setWindowWidth(window.innerWidth);
     }
-    window.addEventListener("resize", windowResizeHandle);
-    return () => window.removeEventListener("resize", windowResizeHandle);
+    window.addEventListener('resize', windowResizeHandle);
+    return () => window.removeEventListener('resize', windowResizeHandle);
   }, []);
   const [openRecipeDropDown, setOpenRecipeDropdown] = useState(false);
   return (
     <div
       className={
         acitveHamburgerMenu && windowWidth < 850
-          ? "smallScreenNavbar_wrapper active"
-          : "smallScreenNavbar_wrapper "
+          ? 'smallScreenNavbar_wrapper active'
+          : 'smallScreenNavbar_wrapper '
       }
     >
       <div className="smallScreenNavbar_inside_wrapper">
@@ -38,7 +38,7 @@ function SmallScreenNavbar({
           setActiveLink={setActiveLink}
           setActiveHamburgerMenu={setActiveHamburgerMenu}
         />
-        {userRole === "Admin" && (
+        {userRole === 'Admin' && (
           <div className="recipe_small_screen_navlink_wrapper">
             <div
               className="recipe_navlink_wrapper"
@@ -54,8 +54,8 @@ function SmallScreenNavbar({
             <div
               className={
                 openRecipeDropDown
-                  ? "small_screen_dropdown active"
-                  : "small_screen_dropdown"
+                  ? 'small_screen_dropdown active'
+                  : 'small_screen_dropdown'
               }
             >
               <Link
@@ -66,24 +66,6 @@ function SmallScreenNavbar({
                 }}
               >
                 <p>Add New Recipe</p>
-              </Link>
-              <Link
-                to="/addNewRecipeType"
-                onClick={() => {
-                  setActiveHamburgerMenu(false);
-                  setOpenRecipeDropdown(false);
-                }}
-              >
-                <p>Add New Recipe Type</p>
-              </Link>
-              <Link
-                to="/allRecipesTable"
-                onClick={() => {
-                  setActiveHamburgerMenu(false);
-                  setOpenRecipeDropdown(false);
-                }}
-              >
-                <p>View All Recipes</p>
               </Link>
             </div>
           </div>

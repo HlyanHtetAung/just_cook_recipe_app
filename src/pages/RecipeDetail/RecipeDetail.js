@@ -83,7 +83,7 @@ function RecipeDetail() {
           <div className="recipe_info_wrapper">
             <div className="recipe_header_wrapper">
               <div className="recipe_photo_wrapper">
-                <img src={recipeDetail?.recipePhotoLink} />
+                <img src={recipeDetail?.recipePhotoLink} alt="" />
               </div>
               <div className="recipe_headerInfo_wrapper">
                 <h2>{recipeDetail?.recipeName}</h2>
@@ -109,11 +109,12 @@ function RecipeDetail() {
                     ? 'Already Saved'
                     : 'Save Recipe'}
                 </button>
-                {userRole === 'Admin' && (
-                  <Link to={`/editRecipe/${params.recipeId}`}>
-                    <button>Edit Recipe</button>
-                  </Link>
-                )}
+                {userRole === 'Admin' ||
+                  (userId === recipeDetail.createdUserId && (
+                    <Link to={`/editRecipe/${params.recipeId}`}>
+                      <button>Edit Recipe</button>
+                    </Link>
+                  ))}
               </div>
             </div>
             <div className="recipe_ingredients_wrapper">

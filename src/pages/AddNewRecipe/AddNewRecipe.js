@@ -8,7 +8,7 @@ import { db, storage } from '../../Firebase';
 import { useNavigate } from 'react-router-dom';
 function AddNewRecipe() {
   const navigate = useNavigate();
-  const { username } = useSelector((state) => state.user);
+  const { username, userId } = useSelector((state) => state.user);
 
   const triGram = (txt) => {
     const map = {};
@@ -74,6 +74,7 @@ function AddNewRecipe() {
             recipeMethods,
             comments: [],
             createdBy: username,
+            createdUserId: userId,
             timestamp: serverTimestamp(),
             toSearchRecipe: [...Object.keys(triGram(recipeName))],
           };
