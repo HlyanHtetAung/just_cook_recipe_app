@@ -109,12 +109,13 @@ function RecipeDetail() {
                     ? 'Already Saved'
                     : 'Save Recipe'}
                 </button>
+
                 {userRole === 'Admin' ||
-                  (userId === recipeDetail.createdUserId && (
-                    <Link to={`/editRecipe/${params.recipeId}`}>
-                      <button>Edit Recipe</button>
-                    </Link>
-                  ))}
+                userId === recipeDetail.createdUserId ? (
+                  <Link to={`/editRecipe/${params.recipeId}`}>
+                    <button>Edit Recipe</button>
+                  </Link>
+                ) : null}
               </div>
             </div>
             <div className="recipe_ingredients_wrapper">

@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import "./home.scss";
-import { FiSearch } from "react-icons/fi";
-import { BsArrowLeftCircle, BsArrowRightCircle } from "react-icons/bs";
+import React, { useEffect, useState } from 'react';
+import './home.scss';
+import { FiSearch } from 'react-icons/fi';
+import { BsArrowLeftCircle, BsArrowRightCircle } from 'react-icons/bs';
 
-import RecipeWithSavedIcon from "../../components/RecipeWithSavedIcon/RecipeWithSavedIcon";
+import RecipeWithSavedIcon from '../../components/RecipeWithSavedIcon/RecipeWithSavedIcon';
 import {
   collection,
   onSnapshot,
@@ -11,12 +11,12 @@ import {
   query,
   limit,
   where,
-} from "firebase/firestore";
-import { db } from "../../Firebase";
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { finishLoading, startLoading } from "../../redux/loadingSlice";
-import Loading from "../../components/Loading/Loading";
+} from 'firebase/firestore';
+import { db } from '../../Firebase';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { finishLoading, startLoading } from '../../redux/loadingSlice';
+import Loading from '../../components/Loading/Loading';
 
 function Home() {
   const { loading } = useSelector((state) => state.loading);
@@ -28,7 +28,7 @@ function Home() {
   const [currentStartPosition, setCurrentStartPosition] = useState(0);
   const [currentShownCarouselItems, setCurrentShownCarouselItems] = useState(0);
   const navigate = useNavigate();
-  const [userSearchInput, setUserSearchInput] = useState("");
+  const [userSearchInput, setUserSearchInput] = useState('');
 
   function hanldeCarouselItemOnWindowWidth() {
     if (window.innerWidth > 1000) {
@@ -55,9 +55,9 @@ function Home() {
   }, []);
 
   useEffect(() => {
-    window.addEventListener("resize", hanldeCarouselItemOnWindowWidth);
+    window.addEventListener('resize', hanldeCarouselItemOnWindowWidth);
     return () =>
-      window.removeEventListener("resize", hanldeCarouselItemOnWindowWidth);
+      window.removeEventListener('resize', hanldeCarouselItemOnWindowWidth);
   }, []);
 
   function handleCarouselRightBtn(val) {
@@ -198,10 +198,10 @@ function Home() {
   useEffect(() => {
     async function fetchNewestRecieps() {
       dispatch(startLoading());
-      const recipesCollectionRef = collection(db, "recipes");
+      const recipesCollectionRef = collection(db, 'recipes');
       const q = query(
         recipesCollectionRef,
-        orderBy("timestamp", "desc"),
+        orderBy('timestamp', 'desc'),
         limit(5)
       );
       onSnapshot(q, (snapshot) => {
@@ -212,7 +212,7 @@ function Home() {
       });
     }
     async function fetchAllRecipes() {
-      const recipesCollectionRef = collection(db, "recipes");
+      const recipesCollectionRef = collection(db, 'recipes');
       onSnapshot(recipesCollectionRef, (snapshot) => {
         setAllRecipes(
           snapshot.docs.map((doc) => ({ ...doc.data(), recipeDocId: doc.id }))
@@ -225,7 +225,7 @@ function Home() {
 
   useEffect(() => {
     async function fetchAllRecipeTypes() {
-      const recipeTypesCollectionRef = collection(db, "recipeTypes");
+      const recipeTypesCollectionRef = collection(db, 'recipeTypes');
       onSnapshot(recipeTypesCollectionRef, (snapshot) => {
         const result = snapshot.docs.map((doc) => ({
           ...doc.data(),
@@ -252,7 +252,7 @@ function Home() {
   }
 
   function handleKeyPress(e) {
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       navigate(`/recipes/searchResult=${userSearchInput}`);
     }
   }
@@ -325,9 +325,7 @@ function Home() {
             </div>
           </div>
           <div className="popular_recipes_wrapper">
-            <h2 className="popular_recipes_header">
-              Popular Recipes These Days
-            </h2>
+            <h2 className="popular_recipes_header">All Recipes</h2>
             <div className="popular_recipes_conatiner">
               {allRecipes.map((recipe) => (
                 <RecipeWithSavedIcon

@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
-import "./recipeWithSavedIcon.scss";
-import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
+import React, { useEffect, useState } from 'react';
+import './recipeWithSavedIcon.scss';
+import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import {
   deleteSavedRecipeHandle,
   handleWordLimit,
   savedRecipeHandle,
   signInHandle,
-} from "../../reuseFunctions";
-import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+} from '../../reuseFunctions';
+import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 function RecipeWithSavedIcon({
   recipePhoto,
@@ -54,8 +54,8 @@ function RecipeWithSavedIcon({
             }
             className={
               userDocumentId && onSaveList
-                ? "like_icon_wrapper saved"
-                : "like_icon_wrapper"
+                ? 'like_icon_wrapper saved'
+                : 'like_icon_wrapper'
             }
           >
             {userDocumentId && onSaveList ? (
@@ -67,13 +67,13 @@ function RecipeWithSavedIcon({
           <p
             className={
               userDocumentId && onSaveList
-                ? "click_to_save_warning_letter saved"
-                : "click_to_save_warning_letter"
+                ? 'click_to_save_warning_letter saved'
+                : 'click_to_save_warning_letter'
             }
           >
             {userDocumentId && onSaveList
-              ? "Click to unsaved"
-              : "Click To Save Recipe"}
+              ? 'Click to unsaved'
+              : 'Click To Save Recipe'}
           </p>
         </div>
         <p>{handleWordLimit(recipeName, 50)}</p>
