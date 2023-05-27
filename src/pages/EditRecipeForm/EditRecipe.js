@@ -6,14 +6,14 @@ import {
   uploadBytesResumable,
 } from 'firebase/storage';
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { v4 } from 'uuid';
 import RecipeForm from '../../components/RecipeForm/RecipeForm';
 import { db, storage } from '../../Firebase';
 
 function EditRecipe() {
   const params = useParams();
-
+  const navigate = useNavigate();
   async function editRecipeHandle(recipeDetail, imageFile, toDelteImageName) {
     const {
       recipeName,
@@ -52,20 +52,20 @@ function EditRecipe() {
               recipeMethods,
             });
           });
+          alert('Successfully edit recipe.');
+          navigate(`/recipe/${params.recipeDocId}`);
         }
       );
       return;
     }
-    console.log('recipeName', recipeName);
-    console.log('reciepType', recipeType);
-    console.log('recipeIngredients', recipeIngredients);
-    console.log('recipeMethods', recipeMethods);
     await updateDoc(recipceDocRef, {
       recipeName,
       recipeType,
       recipeIngredients,
       recipeMethods,
     });
+    alert('Successfully edit recipe.');
+    navigate(`/recipe/${params.recipeDocId}`);
   }
 
   return (
