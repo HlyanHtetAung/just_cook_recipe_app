@@ -2,7 +2,6 @@ import { useState } from 'react';
 import './app.scss';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
-import AboutUs from './pages/AboutUs/AboutUs';
 import Home from './pages/Home/Home';
 import SavedRecipes from './pages/SavedRecipes/SavedRecipes';
 import { AiOutlineInstagram } from 'react-icons/ai';
@@ -12,8 +11,6 @@ import RecipeDetail from './pages/RecipeDetail/RecipeDetail';
 import EditRecipe from './pages/EditRecipeForm/EditRecipe';
 import AddNewRecipe from './pages/AddNewRecipe/AddNewRecipe';
 import SearchResultRecipes from './pages/SearchResultRecipes/SearchResultRecipes';
-import AddNewRecipeType from './pages/AddNewRecipeType/AddNewRecipeType';
-import ViewAllRecipes from './pages/ViewAllRecipes/ViewAllRecipes';
 import SearchResultByType from './pages/searchResultByType/SearchResultByType';
 
 function App() {
@@ -30,11 +27,9 @@ function App() {
         <Routes>
           <Route path="/">
             <Route index element={<Home />} />
-            <Route path="aboutUs" element={<AboutUs />} />
             <Route path="savedRecipes" element={<SavedRecipes />} />
             <Route path="addNewRecipe" element={<AddNewRecipe />} />
-            <Route path="addNewRecipeType" element={<AddNewRecipeType />} />
-            <Route path="allRecipesTable" element={<ViewAllRecipes />} />
+
             <Route path="editRecipe/:recipeDocId" element={<EditRecipe />} />
             <Route path="recipe/:recipeId" element={<RecipeDetail />} />
             <Route
