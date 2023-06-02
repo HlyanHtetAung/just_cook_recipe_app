@@ -1,16 +1,16 @@
-import { collection, onSnapshot } from "firebase/firestore";
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { db } from "../../Firebase";
-import RecipeWithSavedIcon from "../RecipeWithSavedIcon/RecipeWithSavedIcon";
-import "./searchResult.scss";
+import { collection, onSnapshot } from 'firebase/firestore';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { db } from '../../Firebase';
+import RecipeWithSavedIcon from '../RecipeWithSavedIcon/RecipeWithSavedIcon';
+import './searchResult.scss';
 
 function SearchResult({ foundRecipes, selectedRecipeType }) {
   const [allRecipeTypes, setAllRecipeTypes] = useState([]);
 
   useEffect(() => {
     async function fetchAllRecipeTypes() {
-      const recipeTypesCollectionRef = collection(db, "recipeTypes");
+      const recipeTypesCollectionRef = collection(db, 'recipeTypes');
       onSnapshot(recipeTypesCollectionRef, (snapshot) => {
         const result = snapshot.docs.map((doc) => ({
           ...doc.data(),
@@ -36,8 +36,8 @@ function SearchResult({ foundRecipes, selectedRecipeType }) {
                 <p
                   className={
                     recipeType.recipeTypeName == selectedRecipeType
-                      ? "active"
-                      : ""
+                      ? 'active'
+                      : ''
                   }
                 >
                   {recipeType.recipeTypeName}
@@ -48,7 +48,7 @@ function SearchResult({ foundRecipes, selectedRecipeType }) {
         </div>
         <div className="searchResult_left">
           <h3>
-            Found Recipes ({foundRecipes?.length ? foundRecipes?.length : "0"})
+            Found Recipes ({foundRecipes?.length ? foundRecipes?.length : '0'})
           </h3>
           <div className="searched_recipes_wrapper">
             {foundRecipes?.map((recipe) => (
@@ -73,8 +73,8 @@ function SearchResult({ foundRecipes, selectedRecipeType }) {
                 <p
                   className={
                     recipeType.recipeTypeName == selectedRecipeType
-                      ? "active"
-                      : ""
+                      ? 'active'
+                      : ''
                   }
                 >
                   {recipeType.recipeTypeName}

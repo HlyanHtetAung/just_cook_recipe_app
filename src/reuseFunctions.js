@@ -1,4 +1,4 @@
-import { db } from "./Firebase";
+import { db } from './Firebase';
 import {
   collection,
   addDoc,
@@ -6,13 +6,13 @@ import {
   doc,
   getDocs,
   getDoc,
-} from "firebase/firestore";
-import { signInWithGoogle } from "./Firebase";
-import { reduxLogin, updateSavedRecipes } from "./redux/userSlice";
+} from 'firebase/firestore';
+import { signInWithGoogle } from './Firebase';
+import { reduxLogin, updateSavedRecipes } from './redux/userSlice';
 
 export function handleWordLimit(toLimitWord, limitAmount) {
-  if (toLimitWord.split("").length > limitAmount) {
-    return toLimitWord.split("").splice(0, limitAmount).join("") + "...";
+  if (toLimitWord.split('').length > limitAmount) {
+    return toLimitWord.split('').splice(0, limitAmount).join('') + '...';
   }
   return toLimitWord;
 }
@@ -20,7 +20,7 @@ export function handleWordLimit(toLimitWord, limitAmount) {
 export async function signInHandle(e, dispatch) {
   e.preventDefault();
   e.stopPropagation();
-  const userCollectionRef = collection(db, "users");
+  const userCollectionRef = collection(db, 'users');
   const allUsersDocs = await getDocs(userCollectionRef);
   const signInResponse = await signInWithGoogle();
 
@@ -29,13 +29,13 @@ export async function signInHandle(e, dispatch) {
     .find((usr) => usr.userId === signInResponse.user?.uid);
 
   if (foundUser !== undefined) {
-    console.log("userphotoUrl", signInResponse.user.photoURL);
-    console.log("found User render");
+    console.log('userphotoUrl', signInResponse.user.photoURL);
+    console.log('found User render');
     const updatedNameAndPhotoLinkUser = { ...foundUser };
     updatedNameAndPhotoLinkUser.userPhoto = signInResponse.user.photoURL;
     updatedNameAndPhotoLinkUser.username = signInResponse.user.displayName;
     delete updatedNameAndPhotoLinkUser.docId;
-    const docRef = doc(db, "users", foundUser.docId);
+    const docRef = doc(db, 'users', foundUser.docId);
     await updateDoc(docRef, {
       userPhoto: signInResponse.user.photoURL,
       username: signInResponse.user.displayName,
@@ -53,7 +53,7 @@ export async function signInHandle(e, dispatch) {
     userPhoto: signInResponse.user.photoURL,
     userId: signInResponse.user.uid,
     savedRecipes: [],
-    userRole: "User",
+    userRole: 'User',
   };
 
   await addDoc(userCollectionRef, newUserObj);
@@ -65,7 +65,7 @@ export async function savedRecipeHandle(
   dispatch,
   userDocumentId
 ) {
-  const userDocRef = doc(db, "users", userDocumentId);
+  const userDocRef = doc(db, 'users', userDocumentId);
   const currentUserResult = (await getDoc(userDocRef)).data();
   const refoundSavedRecipes = currentUserResult.savedRecipes.filter(
     (curRecipeDetail) =>
@@ -89,7 +89,7 @@ export async function deleteSavedRecipeHandle(
 ) {
   e.stopPropagation();
   e.preventDefault();
-  const docRef = doc(db, "users", userDocumentId);
+  const docRef = doc(db, 'users', userDocumentId);
   const userResult = (await getDoc(docRef)).data();
   const currentSavedRecipes = [...userResult.savedRecipes];
   const toDeleteSavedRecipeIndex = currentSavedRecipes.findIndex(
